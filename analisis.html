@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroTech - Analisis Data (Grafik Jelas)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* --- TEMA V4: NATURAL & JELAS --- */
+        :root {
+            --bg-main: #f4f7fa; --sidebar-bg: #ffffff; --card-bg: #ffffff;
+            --primary-accent: #2a9d8f; --primary-light: #eaf6f5;
+            --text-dark: #2c3e50; --text-muted: #8a99a8; --border-color: #e8edf2;
+            --temp-color: #e76f51; --humidity-color: #3a86ff; --soil-color: #8a5a44;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-main); color: var(--text-dark); display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background: var(--sidebar-bg); padding: 30px 20px; height: 100vh; position: fixed; display: flex; flex-direction: column; border-right: 1px solid var(--border-color); }
+        .sidebar-header { display: flex; align-items: center; gap: 15px; margin-bottom: 50px; }
+        .sidebar-header i { font-size: 2.2em; color: var(--primary-accent); }
+        .sidebar-header h2 { font-size: 1.6em; font-weight: 700; color: var(--text-dark); }
+        .sidebar-nav ul { list-style: none; }
+        .sidebar-nav li { margin-bottom: 8px; }
+        .sidebar-nav li a { display: flex; align-items: center; gap: 15px; padding: 16px 18px; border-radius: 12px; text-decoration: none; color: var(--text-muted); font-weight: 600; font-size: 0.95em; transition: all 0.3s ease; }
+        .sidebar-nav li a:hover { background: var(--primary-light); color: var(--primary-accent); }
+        .sidebar-nav li a.active { background: var(--primary-accent); color: #ffffff; }
+        .sidebar-nav li a i { font-size: 1.2em; width: 24px; }
+        .main-content { flex-grow: 1; margin-left: 280px; padding: 40px 50px; }
+        .main-header { margin-bottom: 40px; }
+        .main-header h1 { font-size: 2.5em; font-weight: 700; margin-bottom: 8px; color: var(--text-dark); }
+        .main-header p { color: var(--text-muted); font-size: 1.05em; }
+        .card { background: var(--card-bg); border-radius: 16px; padding: 30px; border: 1px solid var(--border-color); box-shadow: var(--shadow); transition: all 0.3s ease; }
+        .card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
+        
+        .time-filter { display: flex; gap: 15px; margin-bottom: 30px; }
+        .time-filter button { background-color: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-muted); padding: 10px 20px; border-radius: 10px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; }
+        .time-filter button:hover { color: var(--primary-accent); border-color: var(--primary-accent); }
+        .time-filter button.active { background-color: var(--primary-light); color: var(--primary-accent); border-color: var(--primary-accent); }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-bottom: 30px; }
+        .stats-card .stat-title { font-size: 0.9em; color: var(--text-muted); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stats-card .stat-value { font-size: 2em; font-weight: 700; color: var(--text-dark); }
+        .stats-card .stat-value .unit { font-size: 0.6em; font-weight: 500; color: var(--text-muted); margin-left: 5px; }
+        
+        /* --- CSS BARU UNTUK WADAH GRAFIK --- */
+        .charts-container {
+            display: grid;
+            grid-template-columns: 1fr; /* Default 1 kolom */
+            gap: 30px;
+        }
+        /* Tampilkan 3 kolom di layar besar */
+        @media (min-width: 1200px) {
+            .charts-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        .mini-chart-card h3 {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .mini-chart-card canvas {
+            height: 250px !important;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <i class="fa-solid fa-leaf"></i>
+            <h2>AgroTech</h2>
+        </div>
+        <ul class="sidebar-nav">
+            <li><a href="#"><i class="fa-solid fa-table-columns"></i><span>Dashboard</span></a></li>
+            <li id="nav-analisis"><a href="#" class="active"><i class="fa-solid fa-chart-line"></i><span>Analisis Data</span></a></li>
+            <li><a href="#"><i class="fa-solid fa-lightbulb"></i><span>Rekomendasi</span></a></li>
+            <li><a href="#"><i class="fa-solid fa-file-alt"></i><span>Laporan</span></a></li>
+            <li><a href="#"><i class="fa-solid fa-cog"></i><span>Pengaturan</span></a></li>
+        </ul>
+    </nav>
+
+    <div class="main-content">
+        <header class="main-header">
+            <h1>Analisis Data Historis</h1>
+            <p>Pantau tren dan performa lahan Anda dari waktu ke waktu.</p>
+        </header>
+
+        <div class="time-filter">
+            <button class="active" data-period="24h">24 Jam</button>
+            <button data-period="7d">7 Hari</button>
+            <button data-period="30d">30 Hari</button>
+        </div>
+
+        <div class="stats-grid">
+            <div class="card stats-card">
+                <div class="stat-title">Suhu Rata-rata</div>
+                <div class="stat-value" id="avg-temp">-- <span class="unit">°C</span></div>
+            </div>
+            <div class="card stats-card">
+                <div class="stat-title">Kelembapan Tertinggi</div>
+                <div class="stat-value" id="max-humidity">-- <span class="unit">%</span></div>
+            </div>
+            <div class="card stats-card">
+                <div class="stat-title">Kelembapan Tanah Min.</div>
+                <div class="stat-value" id="min-soil">-- <span class="unit">%</span></div>
+            </div>
+            <div class="card stats-card">
+                <div class="stat-title">Pompa Aktif</div>
+                <div class="stat-value" id="pump-duration">-- <span class="unit">Menit</span></div>
+            </div>
+        </div>
+        
+        <div class="charts-container">
+            <div class="card mini-chart-card">
+                <h3>Tren Kelembapan Tanah (%)</h3>
+                <canvas id="soilChart"></canvas>
+            </div>
+            <div class="card mini-chart-card">
+                <h3>Tren Suhu Udara (°C)</h3>
+                <canvas id="tempChart"></canvas>
+            </div>
+            <div class="card mini-chart-card">
+                <h3>Tren Kelembapan Udara (%)</h3>
+                <canvas id="humidityChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Ambil canvas untuk 3 grafik
+        const ctxSoil = document.getElementById('soilChart').getContext('2d');
+        const ctxTemp = document.getElementById('tempChart').getContext('2d');
+        const ctxHumidity = document.getElementById('humidityChart').getContext('2d');
+        let soilChart, tempChart, humidityChart;
+
+        // --- Konfigurasi dasar untuk semua grafik mini ---
+        const getChartOptions = () => ({
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            scales: {
+                x: { ticks: { color: 'var(--text-muted)' }, grid: { display: false } },
+                y: { ticks: { color: 'var(--text-muted)' }, grid: { color: 'var(--border-color)' } }
+            },
+            plugins: {
+                legend: { display: false }, // Legenda tidak diperlukan
+                tooltip: {
+                    backgroundColor: 'rgba(44, 62, 80, 0.9)',
+                    titleColor: '#ffffff', bodyColor: '#ffffff',
+                    padding: 10, cornerRadius: 10,
+                }
+            },
+            elements: { line: { tension: 0.4 } }
+        });
+
+        // --- Fungsi generate data (tidak berubah) ---
+        function generateData(period) {
+            let labels = [], soilData = [], tempData = [], humidityData = [];
+            let points = (period === '24h') ? 24 : (period === '7d') ? 7 : 30;
+            const now = new Date();
+            for (let i = points - 1; i >= 0; i--) {
+                const date = new Date(now.getTime() - i * (period === '24h' ? 36e5 : 864e5));
+                labels.push(period === '24h' ? date.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) : date.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' }));
+                soilData.push((Math.random() * 40 + 30).toFixed(1));
+                tempData.push((Math.random() * 5 + 27).toFixed(1));
+                humidityData.push((Math.random() * 20 + 65).toFixed(1));
+            }
+            return { labels, soilData, tempData, humidityData };
+        }
+
+        // --- Fungsi update statistik (tidak berubah) ---
+        function updateStats(data) {
+            document.getElementById('avg-temp').innerHTML = `${(data.tempData.reduce((a, b) => a + parseFloat(b), 0) / data.tempData.length).toFixed(1)} <span class="unit">°C</span>`;
+            document.getElementById('max-humidity').innerHTML = `${Math.max(...data.humidityData)} <span class="unit">%</span>`;
+            document.getElementById('min-soil').innerHTML = `${Math.min(...data.soilData)} <span class="unit">%</span>`;
+            document.getElementById('pump-duration').innerHTML = `${(Math.random() * 100 + 20).toFixed(0)} <span class="unit">Menit</span>`;
+        }
+        
+        // --- Fungsi BARU untuk membuat atau mengupdate 3 grafik ---
+        function createOrUpdateCharts(period) {
+            const data = generateData(period);
+            updateStats(data);
+            
+            // Definisikan dataset untuk setiap grafik
+            const datasets = {
+                soil: { label: 'Kelembapan Tanah', data: data.soilData, borderColor: 'var(--soil-color)', pointBackgroundColor: 'var(--soil-color)' },
+                temp: { label: 'Suhu Udara', data: data.tempData, borderColor: 'var(--temp-color)', pointBackgroundColor: 'var(--temp-color)' },
+                humidity: { label: 'Kelembapan Udara', data: data.humidityData, borderColor: 'var(--humidity-color)', pointBackgroundColor: 'var(--humidity-color)' }
+            };
+
+            // Fungsi helper untuk menggambar satu grafik
+            const updateChart = (chartInstance, ctx, datasetConfig) => {
+                const chartData = {
+                    labels: data.labels,
+                    datasets: [{
+                        label: datasetConfig.label,
+                        data: datasetConfig.data,
+                        borderColor: datasetConfig.borderColor,
+                        borderWidth: 3,
+                        fill: false, // Penting: diubah menjadi false
+                        pointBackgroundColor: datasetConfig.pointBackgroundColor,
+                        pointRadius: 2,
+                        pointHoverRadius: 5,
+                    }]
+                };
+
+                if (chartInstance) {
+                    chartInstance.data.labels = data.labels;
+                    chartInstance.data.datasets[0].data = datasetConfig.data;
+                    chartInstance.update();
+                    return chartInstance;
+                } else {
+                    return new Chart(ctx, { type: 'line', data: chartData, options: getChartOptions() });
+                }
+            };
+
+            soilChart = updateChart(soilChart, ctxSoil, datasets.soil);
+            tempChart = updateChart(tempChart, ctxTemp, datasets.temp);
+            humidityChart = updateChart(humidityChart, ctxHumidity, datasets.humidity);
+        }
+
+        // Event Listener untuk tombol filter (tidak berubah)
+        const filterButtons = document.querySelectorAll('.time-filter button');
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                createOrUpdateCharts(button.dataset.period);
+            });
+        });
+
+        // Inisialisasi awal
+        createOrUpdateCharts('24h');
+    });
+    </script>
+</body>
+</html>
