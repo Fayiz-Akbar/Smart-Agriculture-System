@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroTech Dashboard - Tema Natural</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* --- TEMA BARU V4: NATURAL & JELAS --- */
+        :root {
+            --bg-main: #f4f7fa; /* Latar belakang abu-abu sangat muda */
+            --sidebar-bg: #ffffff;
+            --card-bg: #ffffff;
+            --primary-accent: #2a9d8f; /* Hijau daun yang tenang */
+            --primary-light: #eaf6f5;
+            --text-dark: #2c3e50; /* Abu-abu tua kebiruan */
+            --text-muted: #8a99a8;
+            --border-color: #e8edf2;
+            --temp-color: #e76f51; /* Oranye hangat */
+            --humidity-color: #3a86ff; /* Biru air */
+            --soil-color: #8a5a44; /* Coklat tanah */
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-main); color: var(--text-dark); display: flex; min-height: 100vh; }
+        
+        /* --- Sidebar & Navigasi --- */
+        .sidebar { width: 280px; background: var(--sidebar-bg); padding: 30px 20px; height: 100vh; position: fixed; display: flex; flex-direction: column; border-right: 1px solid var(--border-color); }
+        .sidebar-header { display: flex; align-items: center; gap: 15px; margin-bottom: 50px; }
+        .sidebar-header i { font-size: 2.2em; color: var(--primary-accent); }
+        .sidebar-header h2 { font-size: 1.6em; font-weight: 700; color: var(--text-dark); }
+        .sidebar-nav ul { list-style: none; }
+        .sidebar-nav li { margin-bottom: 8px; }
+        .sidebar-nav li a { display: flex; align-items: center; gap: 15px; padding: 16px 18px; border-radius: 12px; text-decoration: none; color: var(--text-muted); font-weight: 600; font-size: 0.95em; transition: all 0.3s ease; }
+        .sidebar-nav li a:hover { background: var(--primary-light); color: var(--primary-accent); }
+        .sidebar-nav li a.active { background: var(--primary-accent); color: #ffffff; }
+        .sidebar-nav li a i { font-size: 1.2em; width: 24px; }
+        
+        /* --- Konten Utama --- */
+        .main-content { flex-grow: 1; margin-left: 280px; padding: 40px 50px; }
+        .main-header { margin-bottom: 40px; animation: fadeInDown 0.6s ease; }
+        .main-header h1 { font-size: 2.5em; font-weight: 700; margin-bottom: 8px; color: var(--text-dark); }
+        .main-header p { color: var(--text-muted); font-size: 1.05em; }
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        
+        /* --- Kartu --- */
+        .card { background: var(--card-bg); border-radius: 16px; padding: 30px; border: 1px solid var(--border-color); box-shadow: var(--shadow); transition: all 0.3s ease; animation: fadeInUp 0.6s ease backwards; }
+        .card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.3s; }
+        .card:nth-child(4) { animation-delay: 0.4s; }
+        .card:nth-child(5) { animation-delay: 0.5s; }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .card-header span { color: var(--text-dark); font-size: 1em; font-weight: 600; }
+        .card-header i { font-size: 1.8em; }
+        .card.temp i { color: var(--temp-color); }
+        .card.humidity i { color: var(--humidity-color); }
+        .card .data-value { font-size: 3.2em; font-weight: 700; color: var(--text-dark); }
+        
+        /* --- Gauge Meter Kelembapan Tanah (Versi Cerah) --- */
+        .card.soil { grid-column: span 2; display: flex; align-items: center; justify-content: space-around; gap: 40px; padding: 40px; }
+        .gauge-container { width: 180px; height: 180px; position: relative; }
+        .gauge-meter { width: 100%; height: 100%; border-radius: 50%; display: grid; place-items: center; background: conic-gradient(var(--soil-color) var(--progress-value, 0deg), #e8edf2 var(--progress-value, 0deg)); position: relative; transition: background 0.5s ease; }
+        .gauge-meter::before { content: ''; position: absolute; width: 75%; height: 75%; background: var(--card-bg); border-radius: 50%; }
+        .gauge-value { position: relative; font-size: 2.8em; font-weight: 700; color: var(--soil-color); }
+        .gauge-text { text-align: left; flex: 1; }
+        .gauge-text h3 { font-size: 1.8em; margin-bottom: 12px; font-weight: 600; }
+        .gauge-text p { color: var(--text-muted); font-size: 1.05em; line-height: 1.6; }
+        
+        /* --- Kontrol Pompa (Versi Cerah) --- */
+        .card-control { text-align: center; padding: 35px; }
+        .card-control h3 { font-size: 1.3em; margin-bottom: 20px; font-weight: 600; }
+        .pump-status-icon { font-size: 3.5em; margin: 20px 0; transition: all 0.4s ease; }
+        .pump-status-icon.on { color: var(--primary-accent); animation: pulse 2s infinite; }
+        .pump-status-icon.off { color: #ef4444; opacity: 0.8; }
+        .card-control p { margin: 15px 0 25px; font-size: 1.05em; color: var(--text-muted); }
+        .card-control p strong { color: var(--text-dark); font-weight: 600; }
+        .card-control button { background-color: var(--primary-accent); color: white; border: none; padding: 14px 32px; border-radius: 12px; font-weight: 600; font-size: 1em; cursor: pointer; transition: all 0.3s ease; }
+        .card-control button:hover { background-color: #248a7f; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(42, 157, 143, 0.3); }
+        
+        /* --- Kartu Cuaca (Versi Cerah) --- */
+        .card-weather { text-align: center; padding: 35px; }
+        .card-weather h3 { font-size: 1.3em; margin-bottom: 20px; font-weight: 600; }
+        .card-weather i { font-size: 3.5em; margin: 20px 0; color: #f59e0b; }
+        .card-weather p { font-size: 1.05em; color: var(--text-muted); margin-top: 15px; }
+        
+        /* --- Animasi --- */
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+    </style>
+</head>
+<body>
+
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <i class="fa-solid fa-leaf"></i>
+            <h2>AgroTech</h2>
+        </div>
+        <ul class="sidebar-nav">
+            <li><a href="#" class="active"><i class="fa-solid fa-table-columns"></i><span>Dashboard</span></a></li>
+            <li><a href="#"><i class="fa-solid fa-chart-line"></i><span>Analisis Data</span></a></li>
+            <li><a href="#"><i class="fa-solid fa-lightbulb"></i><span>Rekomendasi</span></a></li>
+            <li><a href="#"><i class="fa-solid fa-file-alt"></i><span>Laporan</span></a></li>
+            <li><a href="#"><i class="fa-solid fa-cog"></i><span>Pengaturan</span></a></li>
+        </ul>
+    </nav>
+
+    <div class="main-content">
+        <header class="main-header">
+            <h1 id="greeting">Selamat Pagi, Petani!</h1>
+            <p>Berikut adalah pantauan real-time dari lahan Anda.</p>
+        </header>
+
+        <main class="dashboard-grid">
+            <div class="card soil">
+                <div class="gauge-container">
+                    <div class="gauge-meter" id="soil-gauge">
+                        <div class="gauge-value" id="soil-moisture-value">--%</div>
+                    </div>
+                </div>
+                <div class="gauge-text">
+                    <h3>Kelembapan Tanah</h3>
+                    <p id="soil-status">Sensor mengukur tingkat air dalam tanah untuk jadwal siram yang efisien.</p>
+                </div>
+            </div>
+
+            <div class="card temp">
+                <div class="card-header">
+                    <span>Suhu Udara</span>
+                    <i class="fa-solid fa-temperature-three-quarters"></i>
+                </div>
+                <div class="data-value" id="air-temp">--°C</div>
+            </div>
+
+            <div class="card humidity">
+                <div class="card-header">
+                    <span>Kelembapan Udara</span>
+                    <i class="fa-solid fa-wind"></i>
+                </div>
+                <div class="data-value" id="air-humidity">--%</div>
+            </div>
+
+            <div class="card card-control">
+                <h3>Kontrol Pompa</h3>
+                <i id="pump-icon" class="fa-solid fa-faucet-drip pump-status-icon off"></i>
+                <p>Status: <strong id="pump-status">Mati</strong></p>
+                <button id="pump-toggle-btn">Nyalakan Pompa</button>
+            </div>
+            
+            <div class="card card-weather">
+                 <h3>Status Cuaca</h3>
+                 <i id="weather-icon" class="fa-solid fa-sun"></i>
+                 <p id="rain-status">Kondisi Cerah</p>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // --- JAVASCRIPT TIDAK BERUBAH, HANYA MENGONTROL LOGIKA ---
+        document.addEventListener('DOMContentLoaded', function() {
+            const greetingEl = document.getElementById('greeting');
+            const soilGaugeEl = document.getElementById('soil-gauge');
+            const soilMoistureValueEl = document.getElementById('soil-moisture-value');
+            const airTempEl = document.getElementById('air-temp');
+            const airHumidityEl = document.getElementById('air-humidity');
+            const pumpIconEl = document.getElementById('pump-icon');
+            const pumpStatusEl = document.getElementById('pump-status');
+            const pumpToggleBtn = document.getElementById('pump-toggle-btn');
+            
+            let isPumpOn = false;
+
+            function updateGreeting() {
+                const hour = new Date().getHours();
+                if (hour < 11) greetingEl.textContent = "Selamat Pagi, Petani!";
+                else if (hour < 15) greetingEl.textContent = "Selamat Siang, Petani!";
+                else if (hour < 19) greetingEl.textContent = "Selamat Sore, Petani!";
+                else greetingEl.textContent = "Selamat Malam, Petani!";
+            }
+
+            function updateDashboardData() {
+                const soil = (Math.random() * 50 + 25).toFixed(1);
+                const temp = (Math.random() * 5 + 28).toFixed(1);
+                const humidity = (Math.random() * 20 + 65).toFixed(1);
+                
+                const soilDegrees = (soil / 100) * 360;
+                soilGaugeEl.style.setProperty('--progress-value', `${soilDegrees}deg`);
+                soilMoistureValueEl.textContent = `${soil}%`;
+
+                airTempEl.textContent = `${temp}°C`;
+                airHumidityEl.textContent = `${humidity}%`;
+            }
+
+            function togglePump() {
+                isPumpOn = !isPumpOn;
+                if(isPumpOn) {
+                    pumpIconEl.classList.remove('off');
+                    pumpIconEl.classList.add('on');
+                    pumpStatusEl.textContent = "Menyala";
+                    pumpToggleBtn.textContent = "Matikan Pompa";
+                } else {
+                    pumpIconEl.classList.remove('on');
+                    pumpIconEl.classList.add('off');
+                    pumpStatusEl.textContent = "Mati";
+                    pumpToggleBtn.textContent = "Nyalakan Pompa";
+                }
+            }
+
+            pumpToggleBtn.addEventListener('click', togglePump);
+
+            updateGreeting();
+            updateDashboardData();
+            setInterval(updateDashboardData, 3000);
+        });
+    </script>
+</body>
+</html>
