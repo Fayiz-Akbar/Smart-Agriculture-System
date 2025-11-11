@@ -9,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        /* --- TEMA BARU V4: NATURAL & JELAS --- */
         :root {
             --bg-main: #f4f7fa; --sidebar-bg: #ffffff; --card-bg: #ffffff;
             --primary-accent: #2a9d8f; --primary-light: #eaf6f5;
@@ -138,7 +137,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Ambil elemen UI
             const greetingEl = document.getElementById('greeting');
             const soilGaugeEl = document.getElementById('soil-gauge');
             const soilMoistureValueEl = document.getElementById('soil-moisture-value');
@@ -149,7 +147,6 @@
             const weatherIconEl = document.getElementById('weather-icon');
             const rainStatusEl = document.getElementById('rain-status');
 
-            // Fungsi untuk update sapaan berdasarkan waktu
             function updateGreeting() {
                 const hour = new Date().getHours();
                 if (hour < 11) greetingEl.textContent = "Selamat Pagi, Petani!";
@@ -157,21 +154,16 @@
                 else if (hour < 19) greetingEl.textContent = "Selamat Sore, Petani!";
                 else greetingEl.textContent = "Selamat Malam, Petani!";
             }
-
-            // === FUNGSI UTAMA PENGAMBIL DATA (ASLI DARI BACKEND) ===
             async function updateDashboardData() {
                 try {
-                    // 1. Panggil API backend untuk data TERBARU
                     const response = await fetch('api_provider.php?data=terbaru');
                     
-                    // Cek jika response tidak ok (misal: server error 500)
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
                     
                     const data = await response.json();
 
-                    // Cek jika data kosong (misal: tabel database masih kosong)
                     if (!data) {
                         console.warn("Data tidak ditemukan.");
                         return; 
