@@ -28,15 +28,20 @@ if ($hasil) {
         while ($baris = $hasil->fetch_assoc()) {
             $data[] = $baris;
         }
+    } else {
+        // Jika tidak ada data, kirim array kosong
     }
+} else {
+    // Handle error query jika perlu
+    $data = array("error" => "Query gagal: " . $koneksi->error);
 }
 
+// Logika JSON encode yang lebih baik
 if ($mode == 'terbaru' && !empty($data)) {
-    echo json_encode($data[0]);
+    echo json_encode($data[0]); // Kirim objek tunggal
 } else {
-    echo json_encode($data);
+    echo json_encode($data); // Kirim array (meskipun kosong)
 }
 
 $koneksi->close();
-
 ?>

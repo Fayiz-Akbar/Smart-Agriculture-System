@@ -8,7 +8,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
     <style>
         /* --- TEMA V4: NATURAL & JELAS --- */
         :root {
@@ -16,8 +15,7 @@
             --primary-accent: #2a9d8f; --primary-light: #eaf6f5;
             --text-dark: #2c3e50; --text-muted: #8a99a8; --border-color: #e8edf2;
             --temp-color: #e76f51; --humidity-color: #3a86ff; --soil-color: #8a5a44;
-            --warning-color: #f59e0b; /* Warna kuning untuk peringatan */
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --warning-color: #f59e0b; --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             --shadow-hover: 0 6px 16px rgba(0, 0, 0, 0.12);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -37,83 +35,20 @@
         .main-header h1 { font-size: 2.5em; font-weight: 700; margin-bottom: 8px; color: var(--text-dark); }
         .main-header p { color: var(--text-muted); font-size: 1.05em; }
         .card { background: var(--card-bg); border-radius: 16px; padding: 30px; border: 1px solid var(--border-color); box-shadow: var(--shadow); }
-        
-        /* --- CSS SPESIFIK UNTUK HALAMAN REKOMENDASI --- */
-        .priority-recommendation {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-            padding: 40px;
-            margin-bottom: 40px;
-            border-left: 5px solid var(--primary-accent); /* Default border color */
-            transition: border-color 0.5s ease;
-        }
-        .priority-recommendation .icon-area {
-            font-size: 4em;
-            transition: color 0.5s ease;
-        }
-        .priority-recommendation .content h2 {
-            margin: 0 0 10px;
-            font-size: 1.8em;
-        }
-        .priority-recommendation .content p {
-            color: var(--text-muted);
-            font-size: 1.1em;
-            line-height: 1.6;
-        }
-        .live-data-display {
-            background: #f8f9fb; /* Warna latar yang sangat terang */
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
-            font-size: 0.9em;
-            color: var(--text-muted);
-            border: 1px solid var(--border-color);
-        }
-        .recommendation-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-        }
-        .recommendation-card h3 {
-            font-size: 1.4em;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--border-color);
-        }
-        .recommendation-list {
-            list-style: none;
-            padding: 0;
-        }
-        .recommendation-item {
-            display: flex;
-            gap: 20px;
-            align-items: flex-start;
-            margin-bottom: 25px;
-        }
-        .recommendation-item:last-child {
-            margin-bottom: 0;
-        }
-        .recommendation-item .item-icon {
-            font-size: 1.5em;
-            color: var(--text-muted);
-            padding-top: 5px;
-            width: 30px;
-        }
-        .recommendation-item .item-content {
-            flex: 1;
-        }
-        .recommendation-item .item-title {
-            font-size: 1.1em;
-            font-weight: 600;
-            margin-bottom: 5px;
-            color: var(--text-dark);
-        }
-        .recommendation-item .item-description {
-            color: var(--text-muted);
-            font-size: 0.95em;
-            line-height: 1.5;
-        }
+        .priority-recommendation { display: flex; align-items: center; gap: 30px; padding: 40px; margin-bottom: 40px; border-left: 5px solid var(--primary-accent); transition: border-color 0.5s ease; }
+        .priority-recommendation .icon-area { font-size: 4em; transition: color 0.5s ease; }
+        .priority-recommendation .content h2 { margin: 0 0 10px; font-size: 1.8em; }
+        .priority-recommendation .content p { color: var(--text-muted); font-size: 1.1em; line-height: 1.6; }
+        .live-data-display { background: #f8f9fb; padding: 15px; border-radius: 10px; margin-top: 20px; font-size: 0.9em; color: var(--text-muted); border: 1px solid var(--border-color); }
+        .recommendation-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
+        .recommendation-card h3 { font-size: 1.4em; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color); }
+        .recommendation-list { list-style: none; padding: 0; }
+        .recommendation-item { display: flex; gap: 20px; align-items: flex-start; margin-bottom: 25px; }
+        .recommendation-item:last-child { margin-bottom: 0; }
+        .recommendation-item .item-icon { font-size: 1.5em; color: var(--text-muted); padding-top: 5px; width: 30px; }
+        .recommendation-item .item-content { flex: 1; }
+        .recommendation-item .item-title { font-size: 1.1em; font-weight: 600; margin-bottom: 5px; color: var(--text-dark); }
+        .recommendation-item .item-description { color: var(--text-muted); font-size: 0.95em; line-height: 1.5; }
     </style>
 </head>
 <body>
@@ -124,11 +59,11 @@
             <h2>AgroTech</h2>
         </div>
         <ul class="sidebar-nav">
-            <li><a href="#"><i class="fa-solid fa-table-columns"></i><span>Dashboard</span></a></li>
-            <li><a href="#"><i class="fa-solid fa-chart-line"></i><span>Analisis Data</span></a></li>
+            <li><a href="DashboardProyekIOT.html"><i class="fa-solid fa-table-columns"></i><span>Dashboard</span></a></li>
+            <li><a href="analisis.html"><i class="fa-solid fa-chart-line"></i><span>Analisis Data</span></a></li>
             <li><a href="#" class="active"><i class="fa-solid fa-lightbulb"></i><span>Rekomendasi</span></a></li>
-            <li><a href="#"><i class="fa-solid fa-file-alt"></i><span>Laporan</span></a></li>
-            <li><a href="#"><i class="fa-solid fa-cog"></i><span>Pengaturan</span></a></li>
+            <li><a href="laporan.html"><i class="fa-solid fa-file-alt"></i><span>Laporan</span></a></li>
+            <li><a href="pengaturan.html"><i class="fa-solid fa-cog"></i><span>Pengaturan</span></a></li>
         </ul>
     </nav>
 
@@ -148,7 +83,8 @@
                 <div class="live-data-display">
                     <strong>Data Sensor Saat Ini: </strong>
                     Kelembapan: <span id="live-soil">--%</span> | 
-                    Suhu: <span id="live-temp">--°C</span>
+                    Suhu: <span id="live-temp">--°C</span> |
+                    Hujan: <span id="live-rain">--</span>
                 </div>
             </div>
         </div>
@@ -179,44 +115,53 @@
         const careRecsEl = document.getElementById('care-recs');
         const liveSoilEl = document.getElementById('live-soil');
         const liveTempEl = document.getElementById('live-temp');
+        const liveRainEl = document.getElementById('live-rain');
         
-        // --- MESIN LOGIKA REKOMENDASI (IF-ELSE SEDERHANA) ---
-        function generateRecommendations(soil, temp) {
+        // --- MESIN LOGIKA REKOMENDASI (IF-ELSE) ---
+        // (Logika ini tidak perlu diubah, ia hanya perlu data asli)
+        function generateRecommendations(soil, temp, isHujan) {
             let priority = {};
             let wateringRecsHTML = '';
             let careRecsHTML = '';
 
-            // --- Skenario 1: Tanah Kering ---
-            if (soil < 35) {
+            // --- Skenario 1: Hujan Terdeteksi ---
+            if (isHujan) {
+                priority = {
+                    icon: 'fa-solid fa-cloud-showers-heavy', color: 'var(--humidity-color)', title: 'Hujan Terdeteksi',
+                    desc: `Sensor mendeteksi hujan. Sistem penyiraman otomatis akan dinonaktifkan untuk menghemat air.`
+                };
+                wateringRecsHTML = `<li class="recommendation-item"><i class="item-icon fa-solid fa-ban"></i><div class="item-content"><h4 class="item-title">Penyiraman Ditunda</h4><p class="item-description">Pompa tidak akan menyala meskipun tanah kering karena hujan sudah terdeteksi.</p></div></li>`;
+
+            // --- Skenario 2: Tanah Kering (dan TIDAK Hujan) ---
+            } else if (soil < 35) { // Angka 35 bisa diambil dari file pengaturan.html
                 priority = {
                     icon: 'fa-solid fa-droplet', color: 'var(--soil-color)', title: 'TINDAKAN DIPERLUKAN: Tanah Kering',
-                    desc: `Kelembapan tanah (${soil}%) mencapai level kritis! Segera lakukan penyiraman untuk mencegah tanaman stres.`
+                    desc: `Kelembapan tanah (${soil}%) di bawah ambang batas! Sistem akan segera menyiram tanaman.`
                 };
-                wateringRecsHTML = `<li class="recommendation-item"><i class="item-icon fa-solid fa-play-circle"></i><div class="item-content"><h4 class="item-title">Aktifkan Pompa Sekarang</h4><p class="item-description">Direkomendasikan menyalakan pompa selama 15-20 menit.</p></div></li>`;
-                careRecsHTML = `<li class="recommendation-item"><i class="item-icon fa-solid fa-eye"></i><div class="item-content"><h4 class="item-title">Periksa Gejala Layu</h4><p class="item-description">Amati daun tanaman, pastikan tidak ada tanda-tanda layu atau kering.</p></div></li>`;
+                wateringRecsHTML = `<li class="recommendation-item"><i class="item-icon fa-solid fa-play-circle"></i><div class="item-content"><h4 class="item-title">Pompa Akan Aktif</h4><p class="item-description">Sistem otomatis akan menyalakan pompa untuk mengembalikan kelembapan ideal.</p></div></li>`;
             
-            // --- Skenario 2: Kondisi Ideal ---
+            // --- Skenario 3: Kondisi Ideal (dan TIDAK Hujan) ---
             } else if (soil >= 35 && soil <= 70) {
                  priority = {
                     icon: 'fa-solid fa-check-circle', color: 'var(--primary-accent)', title: 'Kondisi Lahan Optimal',
-                    desc: `Kelembapan tanah (${soil}%) dan suhu (${temp}°C) berada dalam rentang ideal. Tidak ada tindakan mendesak yang diperlukan.`
+                    desc: `Kelembapan tanah (${soil}%) dan suhu (${temp}°C) berada dalam rentang ideal. Tidak ada tindakan diperlukan.`
                 };
-                 wateringRecsHTML = `<li class="recommendation-item"><i class="item-icon fa-solid fa-power-off"></i><div class="item-content"><h4 class="item-title">Pompa Tidak Perlu Aktif</h4><p class="item-description">Sistem penyiraman otomatis akan tetap nonaktif untuk menghemat air.</p></div></li>`;
-                careRecsHTML = `<li class="recommendation-item"><i class="item-icon fa-solid fa-calendar-check"></i><div class="item-content"><h4 class="item-title">Fokus pada Perawatan Rutin</h4><p class="item-description">Gunakan waktu ini untuk melakukan pengecekan rutin seperti pemupukan atau pembersihan gulma.</p></div></li>`;
+                 wateringRecsHTML = `<li class="recommendation-item"><i class="item-icon fa-solid fa-power-off"></i><div class="item-content"><h4 class="item-title">Pompa Tetap Mati</h4><p class="item-description">Kelembapan tanah sudah cukup. Sistem menghemat air.</p></div></li>`;
 
-            // --- Skenario 3: Tanah Terlalu Basah ---
+            // --- Skenario 4: Tanah Terlalu Basah (dan TIDAK Hujan) ---
             } else { // soil > 70
                  priority = {
                     icon: 'fa-solid fa-triangle-exclamation', color: 'var(--warning-color)', title: 'PERINGATAN: Kelembapan Terlalu Tinggi',
                     desc: `Tanah terlalu basah (${soil}%). Kondisi ini berisiko menyebabkan busuk akar. Pastikan pompa tidak aktif.`
                 };
-                 wateringRecsHTML = `<li class="recommendation-item"><i class="item-icon fa-solid fa-ban"></i><div class="item-content"><h4 class="item-title">Nonaktifkan Penyiraman</h4><p class="item-description">Pastikan semua jadwal penyiraman otomatis dinonaktifkan hingga tanah kembali normal.</p></div></li>`;
-                careRecsHTML = `<li class="recommendation-item"><i class="item-icon fa-solid fa-water"></i><div class="item-content"><h4 class="item-title">Periksa Sistem Drainase</h4><p class="item-description">Pastikan tidak ada genangan air dan sistem pembuangan air berfungsi dengan baik.</p></div></li>`;
+                 wateringRecsHTML = `<li class="recommendation-item"><i class="item-icon fa-solid fa-ban"></i><div class="item-content"><h4 class="item-title">Nonaktifkan Penyiraman</h4><p class="item-description">Pastikan pompa tidak menyala. Periksa drainase jika kondisi ini bertahan lama.</p></div></li>`;
             }
             
-            // --- Rekomendasi tambahan berdasarkan suhu ---
+            // --- Rekomendasi tambahan berdasarkan suhu (selalu tampil) ---
             if (temp > 32) {
-                careRecsHTML += `<li class="recommendation-item"><i class="item-icon fa-solid fa-temperature-high" style="color:var(--temp-color)"></i><div class="item-content"><h4 class="item-title">Waspada Stres Panas</h4><p class="item-description">Suhu udara saat ini (${temp}°C) cukup tinggi. Pertimbangkan penggunaan jaring peneduh jika memungkinkan.</p></div></li>`;
+                careRecsHTML = `<li class="recommendation-item"><i class="item-icon fa-solid fa-temperature-high" style="color:var(--temp-color)"></i><div class="item-content"><h4 class="item-title">Waspada Stres Panas</h4><p class="item-description">Suhu udara saat ini (${temp}°C) cukup tinggi. Pastikan tanaman tidak layu.</p></div></li>`;
+            } else {
+                 careRecsHTML = `<li class="recommendation-item"><i class="item-icon fa-solid fa-sun"></i><div class="item-content"><h4 class="item-title">Suhu Ideal</h4><p class="item-description">Suhu udara (${temp}°C) berada dalam rentang yang nyaman untuk pertumbuhan tanaman.</p></div></li>`;
             }
 
             // --- Update UI ---
@@ -229,20 +174,47 @@
             careRecsEl.innerHTML = careRecsHTML;
         }
 
-        // --- Fungsi untuk menjalankan simulasi ---
-        function runSimulation() {
-            const soil = (Math.random() * 80 + 10).toFixed(1);
-            const temp = (Math.random() * 10 + 25).toFixed(1);
+        // === FUNGSI UTAMA PENGAMBIL DATA (ASLI DARI BACKEND) ===
+        async function runUpdate() {
+            try {
+                // 1. Panggil API backend untuk data TERBARU
+                const response = await fetch('api_provider.php?data=terbaru');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                
+                if (!data) {
+                    console.warn("Data tidak ditemukan.");
+                    return; 
+                }
 
-            liveSoilEl.textContent = `${soil}%`;
-            liveTempEl.textContent = `${temp}°C`;
+                // 2. Gunakan data asli dari database
+                const soil = parseFloat(data.kelembapan_tanah).toFixed(1);
+                const temp = parseFloat(data.suhu_udara).toFixed(1);
+                const isHujan = data.status_hujan == 1;
 
-            generateRecommendations(soil, temp);
+                // 3. Update data live di UI
+                liveSoilEl.textContent = `${soil}%`;
+                liveTempEl.textContent = `${temp}°C`;
+                liveRainEl.textContent = isHujan ? "Ya" : "Tidak";
+
+                // 4. Panggil mesin logika rekomendasi dengan data asli
+                generateRecommendations(soil, temp, isHujan);
+
+            } catch (error) {
+                console.error("Gagal mengambil data:", error);
+                priorityTitleEl.textContent = "Gagal Memuat Data";
+                priorityDescEl.textContent = "Tidak dapat terhubung ke server backend. Pastikan server (XAMPP) berjalan.";
+                priorityIconEl.className = "fa-solid fa-server";
+                priorityIconEl.style.color = "var(--temp-color)";
+            }
         }
 
-        // Jalankan simulasi setiap 5 detik
-        runSimulation();
-        setInterval(runSimulation, 5000);
+        // Jalankan saat load
+        runUpdate();
+        // Atur interval untuk refresh data (misal: setiap 5 detik)
+        setInterval(runUpdate, 5000);
     });
     </script>
 </body>

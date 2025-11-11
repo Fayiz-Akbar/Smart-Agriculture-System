@@ -9,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     <style>
         /* --- TEMA V4: NATURAL & JELAS --- */
         :root {
@@ -37,8 +36,6 @@
         .main-header h1 { font-size: 2.5em; font-weight: 700; margin-bottom: 8px; color: var(--text-dark); }
         .main-header p { color: var(--text-muted); font-size: 1.05em; }
         .card { background: var(--card-bg); border-radius: 16px; padding: 30px; border: 1px solid var(--border-color); box-shadow: var(--shadow); }
-        
-        /* --- CSS TAMBAHAN UNTUK HALAMAN LAPORAN --- */
         .report-generator .form-group { margin-bottom: 25px; }
         .report-generator label { display: block; font-weight: 600; margin-bottom: 10px; font-size: 1.1em; }
         .option-buttons { display: flex; gap: 15px; }
@@ -46,12 +43,7 @@
         .option-buttons button.selected { background: var(--primary-light); color: var(--primary-accent); border-color: var(--primary-accent); }
         .generate-btn { width: 100%; background-color: var(--primary-accent); color: white; border: none; padding: 15px; border-radius: 10px; font-size: 1.1em; font-weight: 600; cursor: pointer; transition: all 0.3s ease; margin-top: 20px; }
         .generate-btn:hover { background-color: #248a7f; }
-
-        .report-preview {
-            display: none; /* Awalnya disembunyikan */
-            margin-top: 30px;
-            padding: 40px;
-        }
+        .report-preview { display: none; margin-top: 30px; padding: 40px; }
         .report-header { text-align: center; margin-bottom: 30px; }
         .report-header h2 { font-size: 1.8em; }
         .report-header p { color: var(--text-muted); }
@@ -65,7 +57,6 @@
         .btn-download:hover { background: #248a7f; }
         .btn-print { background: transparent; color: var(--text-dark); border: 1px solid var(--border-color); }
         .btn-print:hover { background: #e8edf2; }
-
         .history-card { margin-top: 30px; }
         .history-table { width: 100%; border-collapse: collapse; }
         .history-table th, .history-table td { text-align: left; padding: 15px; border-bottom: 1px solid var(--border-color); }
@@ -82,11 +73,11 @@
             <h2>AgroTech</h2>
         </div>
         <ul class="sidebar-nav">
-            <li><a href="#"><i class="fa-solid fa-table-columns"></i><span>Dashboard</span></a></li>
-            <li><a href="#"><i class="fa-solid fa-chart-line"></i><span>Analisis Data</span></a></li>
-            <li><a href="#"><i class="fa-solid fa-lightbulb"></i><span>Rekomendasi</span></a></li>
+            <li><a href="DashboardProyekIOT.html"><i class="fa-solid fa-table-columns"></i><span>Dashboard</span></a></li>
+            <li><a href="analisis.html"><i class="fa-solid fa-chart-line"></i><span>Analisis Data</span></a></li>
+            <li><a href="rekomendasi.html"><i class="fa-solid fa-lightbulb"></i><span>Rekomendasi</span></a></li>
             <li><a href="#" class="active"><i class="fa-solid fa-file-alt"></i><span>Laporan</span></a></li>
-            <li><a href="#"><i class="fa-solid fa-cog"></i><span>Pengaturan</span></a></li>
+            <li><a href="pengaturan.html"><i class="fa-solid fa-cog"></i><span>Pengaturan</span></a></li>
         </ul>
     </nav>
 
@@ -100,16 +91,16 @@
             <div class="form-group">
                 <label>Pilih Jenis Laporan</label>
                 <div class="option-buttons" id="report-type-options">
-                    <button class="selected" data-type="umum">Ringkasan Umum</button>
-                    <button data-type="penyiraman">Laporan Penyiraman</button>
+                    <button class="selected" data-type="umum">Ringkasan Umum (Data Riwayat)</button>
+                    <button data-type="penyiraman" disabled>Laporan Penyiraman (Segera Hadir)</button>
                 </div>
             </div>
             <div class="form-group">
                 <label>Pilih Rentang Waktu</label>
                 <div class="option-buttons" id="date-range-options">
-                    <button data-range="7d">Minggu Lalu</button>
-                    <button class="selected" data-range="30d">Bulan Ini</button>
-                    <button data-range="90d">3 Bulan Terakhir</button>
+                    <button class="selected" data-range="history">Data Riwayat Terakhir (API)</button>
+                    <button data-range="7d" disabled>Minggu Lalu</button>
+                    <button data-range="90d" disabled>3 Bulan Terakhir</button>
                 </div>
             </div>
             <button class="generate-btn" id="generate-report-btn">
@@ -119,8 +110,8 @@
 
         <div class="card report-preview" id="report-preview">
             <div class="report-header">
-                <h2 id="report-title">Laporan Ringkasan - Bulan Ini</h2>
-                <p id="report-period">01 Okt 2025 - 22 Okt 2025</p>
+                <h2 id="report-title">Laporan Ringkasan - Data Riwayat Terakhir</h2>
+                <p id="report-period">Menampilkan 20 data terakhir dari database</p>
             </div>
             <div class="report-stats" id="report-stats-content">
                 </div>
@@ -132,26 +123,16 @@
                 <button class="btn-print"><i class="fa-solid fa-print"></i> Cetak Laporan</button>
             </div>
         </div>
-
+        
         <div class="card history-card">
-            <h3>Riwayat Laporan</h3>
+            <h3>Riwayat Laporan (Statis)</h3>
             <table class="history-table">
                 <thead>
                     <tr><th>Tanggal Dibuat</th><th>Jenis Laporan</th><th>Rentang Waktu</th><th>Tindakan</th></tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>20 Okt 2025</td>
-                        <td>Ringkasan Umum</td>
-                        <td>01 Okt - 20 Okt</td>
-                        <td><a href="#">Unduh</a></td>
-                    </tr>
-                    <tr>
-                        <td>01 Okt 2025</td>
-                        <td>Laporan Penyiraman</td>
-                        <td>01 Sep - 30 Sep</td>
-                        <td><a href="#">Unduh</a></td>
-                    </tr>
+                    <tr><td>20 Okt 2025</td><td>Ringkasan Umum</td><td>01 Okt - 20 Okt</td><td><a href="#">Unduh</a></td></tr>
+                    <tr><td>01 Okt 2025</td><td>Laporan Penyiraman</td><td>01 Sep - 30 Sep</td><td><a href="#">Unduh</a></td></tr>
                 </tbody>
             </table>
         </div>
@@ -161,14 +142,20 @@
     document.addEventListener('DOMContentLoaded', function () {
         const generateBtn = document.getElementById('generate-report-btn');
         const reportPreviewEl = document.getElementById('report-preview');
-        let reportChart;
+        const reportStatsEl = document.getElementById('report-stats-content');
+        const reportTitleEl = document.getElementById('report-title');
+        const reportPeriodEl = document.getElementById('report-period');
+        
+        let reportChart; // Variabel untuk menyimpan instance grafik
 
-        // --- Logika untuk memilih opsi ---
+        // --- Logika untuk memilih opsi (Tidak diubah) ---
         function setupOptionButtons(containerId) {
             const container = document.getElementById(containerId);
             container.addEventListener('click', function(e) {
-                if (e.target.tagName === 'BUTTON') {
-                    container.querySelector('.selected').classList.remove('selected');
+                if (e.target.tagName === 'BUTTON' && !e.target.disabled) {
+                    if (container.querySelector('.selected')) {
+                        container.querySelector('.selected').classList.remove('selected');
+                    }
                     e.target.classList.add('selected');
                 }
             });
@@ -176,42 +163,51 @@
         setupOptionButtons('report-type-options');
         setupOptionButtons('date-range-options');
 
-        // --- Logika saat tombol "Buat Laporan" diklik ---
-        generateBtn.addEventListener('click', function() {
-            this.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Membuat...';
+        // === FUNGSI UTAMA (DIUBAH TOTAL) ===
+        generateBtn.addEventListener('click', async function() {
+            this.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mengambil data backend...';
             this.disabled = true;
 
-            // Simulasi proses pembuatan laporan (1.5 detik)
-            setTimeout(() => {
-                const reportTitleEl = document.getElementById('report-title');
-                const reportPeriodEl = document.getElementById('report-period');
-                const reportStatsEl = document.getElementById('report-stats-content');
+            try {
+                // 1. Panggil API backend untuk data RIWAYAT
+                const response = await fetch('api_provider.php?data=riwayat');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const dataAsli = await response.json(); // Array [ {..}, {..} ]
+
+                if (dataAsli.length === 0) {
+                    reportStatsEl.innerHTML = "<p>Tidak ada data riwayat di database.</p>";
+                    this.innerHTML = '<i class="fa-solid fa-file-invoice"></i> Buat Laporan';
+                    this.disabled = false;
+                    return;
+                }
+
+                // 2. Proses data asli untuk statistik
+                const soils = dataAsli.map(d => parseFloat(d.kelembapan_tanah));
+                const temps = dataAsli.map(d => parseFloat(d.suhu_udara));
+                const humidities = dataAsli.map(d => parseFloat(d.kelembapan_udara));
+
+                const avgTemp = (temps.reduce((a, b) => a + b, 0) / temps.length).toFixed(1);
+                const minSoil = Math.min(...soils);
+                const maxHumidity = Math.max(...humidities);
                 
+                // 3. Update statistik di UI
+                reportStatsEl.innerHTML = `
+                    <div class="stat-item"><p>Suhu Rata-rata</p><h3>${avgTemp}°C</h3></div>
+                    <div class="stat-item"><p>Kelembapan Tanah Min.</p><h3>${minSoil}%</h3></div>
+                    <div class="stat-item"><p>Kelembapan Udara Maks.</p><h3>${maxHumidity}%</h3></div>
+                `;
+
+                // 4. Update judul
                 const selectedType = document.querySelector('#report-type-options .selected').textContent;
                 const selectedRange = document.querySelector('#date-range-options .selected').textContent;
-
-                // Update judul laporan
                 reportTitleEl.textContent = `${selectedType} - ${selectedRange}`;
-                reportPeriodEl.textContent = "Data simulasi untuk periode yang dipilih";
+                reportPeriodEl.textContent = `Menampilkan ${dataAsli.length} data riwayat terakhir.`;
 
-                // Update statistik (data dummy)
-                if (selectedType.includes("Penyiraman")) {
-                     reportStatsEl.innerHTML = `
-                        <div class="stat-item"><p>Total Durasi Pompa</p><h3>12.5 Jam</h3></div>
-                        <div class="stat-item"><p>Total Air Digunakan</p><h3>5,200 Liter</h3></div>
-                        <div class="stat-item"><p>Penyiraman Manual</p><h3>5 Kali</h3></div>
-                    `;
-                } else {
-                     reportStatsEl.innerHTML = `
-                        <div class="stat-item"><p>Suhu Rata-rata</p><h3>29.5°C</h3></div>
-                        <div class="stat-item"><p>Kelembapan Tanah Min.</p><h3>38%</h3></div>
-                        <div class="stat-item"><p>Kelembapan Udara Maks.</p><h3>85%</h3></div>
-                    `;
-                }
-                
-                // Tampilkan pratinjau
+                // 5. Tampilkan pratinjau dan buat grafik
                 reportPreviewEl.style.display = 'block';
-                generatePreviewChart();
+                generatePreviewChart(dataAsli); // Kirim data asli ke fungsi grafik
 
                 // Kembalikan tombol ke kondisi semula
                 this.innerHTML = '<i class="fa-solid fa-file-invoice"></i> Buat Laporan';
@@ -219,22 +215,34 @@
                 
                 // Scroll ke pratinjau
                 reportPreviewEl.scrollIntoView({ behavior: 'smooth' });
-            }, 1500);
+
+            } catch (error) {
+                console.error("Gagal membuat laporan:", error);
+                reportStatsEl.innerHTML = `<p>Error: ${error.message}. Gagal terhubung ke backend.</p>`;
+                this.innerHTML = 'Gagal Memuat';
+                this.disabled = false;
+            }
         });
         
-        // --- Fungsi untuk membuat grafik di pratinjau ---
-        function generatePreviewChart() {
+        // --- Fungsi untuk membuat grafik (DIUBAH) ---
+        function generatePreviewChart(dataAsli) {
             const ctx = document.getElementById('reportChart').getContext('2d');
+            
+            // Siapkan data untuk grafik
+            const labels = dataAsli.map(item => new Date(item.waktu).toLocaleTimeString('id-ID'));
+            const soilData = dataAsli.map(item => item.kelembapan_tanah);
+
             if (reportChart) {
-                reportChart.destroy();
+                reportChart.destroy(); // Hapus grafik lama jika ada
             }
+            
             reportChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: ['Minggu 1', 'Minggu 2', 'Minggu 3', 'Minggu 4'],
+                    labels: labels,
                     datasets: [{
                         label: 'Kelembapan Tanah Rata-rata',
-                        data: [55, 60, 58, 62],
+                        data: soilData,
                         borderColor: 'var(--primary-accent)',
                         backgroundColor: 'var(--primary-light)',
                         fill: true,
