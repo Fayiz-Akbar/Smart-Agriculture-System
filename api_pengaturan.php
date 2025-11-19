@@ -4,13 +4,10 @@ include 'koneksi.php';
 
 $response = array();
 
-// Cek metode request
 $method = $_SERVER['REQUEST_METHOD'];
 
 if ($method == 'GET') {
-    // --- MODE GET: Mengambil pengaturan saat ini ---
-    
-    // Kita selalu ambil pengaturan dari id = 1
+
     $sql = "SELECT ambang_batas_tanah, durasi_siram_menit FROM tb_pengaturan WHERE id = 1";
     $hasil = $koneksi->query($sql);
 
@@ -24,9 +21,6 @@ if ($method == 'GET') {
     }
 
 } elseif ($method == 'POST') {
-    // --- MODE POST: Menyimpan pengaturan baru ---
-    
-    // Ambil data JSON yang dikirim dari JavaScript
     $data_input = json_decode(file_get_contents('php://input'), true);
 
     if (isset($data_input['ambang_batas_tanah']) && isset($data_input['durasi_siram_menit'])) {
@@ -34,7 +28,6 @@ if ($method == 'GET') {
         $ambang_batas = $data_input['ambang_batas_tanah'];
         $durasi_siram = $data_input['durasi_siram_menit'];
 
-        // Kita UPDATE pengaturan di id = 1
         $sql = "UPDATE tb_pengaturan SET 
                 ambang_batas_tanah = ?, 
                 durasi_siram_menit = ? 

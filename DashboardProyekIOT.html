@@ -87,7 +87,7 @@
 
     <div class="main-content">
         <header class="main-header">
-            <h1 id="greeting">Selamat Pagi, Petani!</h1>
+            <h1 id="greeting"></h1>
             <p>Berikut adalah pantauan real-time dari lahan Anda.</p>
         </header>
 
@@ -209,18 +209,16 @@
 
                 } catch (error) {
                     console.error("Gagal mengambil data:", error);
-                    // Tampilkan error di UI jika perlu, misal:
+           
                     soilMoistureValueEl.textContent = "Err";
                     airTempEl.textContent = "--°C";
                     airHumidityEl.textContent = "--%";
                 }
             }
             
-            // Panggil fungsi saat load
             updateGreeting();
             updateDashboardData();
             
-            // Atur interval untuk refresh data (misal: setiap 3 detik)
             setInterval(updateDashboardData, 3000);
         });
     </script>

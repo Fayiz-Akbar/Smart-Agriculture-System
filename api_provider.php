@@ -32,15 +32,13 @@ if ($hasil) {
         // Jika tidak ada data, kirim array kosong
     }
 } else {
-    // Handle error query jika perlu
     $data = array("error" => "Query gagal: " . $koneksi->error);
 }
 
-// Logika JSON encode yang lebih baik
 if ($mode == 'terbaru' && !empty($data)) {
-    echo json_encode($data[0]); // Kirim objek tunggal
+    echo json_encode($data[0]); 
 } else {
-    echo json_encode($data); // Kirim array (meskipun kosong)
+    echo json_encode($data); 
 }
 
 $koneksi->close();

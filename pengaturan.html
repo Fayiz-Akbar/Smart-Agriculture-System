@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
-        /* --- TEMA V4: NATURAL & JELAS --- */
         :root {
             --bg-main: #f4f7fa; --sidebar-bg: #ffffff; --card-bg: #ffffff;
             --primary-accent: #2a9d8f; --primary-light: #eaf6f5;
@@ -262,9 +261,8 @@
             } catch (error) {
                 console.error('Error saat menyimpan:', error);
                 saveButton.textContent = 'Gagal!';
-                saveButton.style.backgroundColor = '#e74c3c'; // Merah
+                saveButton.style.backgroundColor = '#e74c3c'; 
             } finally {
-                // Kembalikan tombol ke kondisi semula setelah 2.5 detik
                 setTimeout(() => {
                     saveButton.textContent = originalText;
                     saveButton.disabled = false;
@@ -273,10 +271,8 @@
             }
         });
 
-        // Panggil fungsi load saat halaman dibuka
         loadPengaturan();
 
-        // --- Logika untuk Tombol Simpan (Dummy untuk tab lain) ---
         const dummySaveButtons = document.querySelectorAll('.dummy-save-btn');
         dummySaveButtons.forEach(button => {
             button.addEventListener('click', function(e) {

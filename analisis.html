@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AgroTech - Analisis Data (Grafik Jelas)</title>
+    <title>AgroTech - Analisis Data</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -21,7 +21,9 @@
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background-color: var(--bg-main); color: var(--text-dark); display: flex; min-height: 100vh; }
-        .sidebar { width: 280px; background: var(--sidebar-bg); padding: 30px 20px; height: 100vh; position: fixed; display: flex; flex-direction: column; border-right: 1px solid var(--border-color); }
+        
+        /* Sidebar Style */
+        .sidebar { width: 280px; background: var(--sidebar-bg); padding: 30px 20px; height: 100vh; position: fixed; display: flex; flex-direction: column; border-right: 1px solid var(--border-color); z-index: 1000; }
         .sidebar-header { display: flex; align-items: center; gap: 15px; margin-bottom: 50px; }
         .sidebar-header i { font-size: 2.2em; color: var(--primary-accent); }
         .sidebar-header h2 { font-size: 1.6em; font-weight: 700; color: var(--text-dark); }
@@ -31,24 +33,83 @@
         .sidebar-nav li a:hover { background: var(--primary-light); color: var(--primary-accent); }
         .sidebar-nav li a.active { background: var(--primary-accent); color: #ffffff; }
         .sidebar-nav li a i { font-size: 1.2em; width: 24px; }
+
+        /* Main Content */
         .main-content { flex-grow: 1; margin-left: 280px; padding: 40px 50px; }
-        .main-header { margin-bottom: 40px; }
+        .main-header { margin-bottom: 40px; display: flex; justify-content: space-between; align-items: center; }
         .main-header h1 { font-size: 2.5em; font-weight: 700; margin-bottom: 8px; color: var(--text-dark); }
         .main-header p { color: var(--text-muted); font-size: 1.05em; }
+
+        /* Cards */
         .card { background: var(--card-bg); border-radius: 16px; padding: 30px; border: 1px solid var(--border-color); box-shadow: var(--shadow); transition: all 0.3s ease; }
         .card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
-        .time-filter { display: flex; gap: 15px; margin-bottom: 30px; }
+        
+        /* Filters */
+        .time-filter { display: flex; gap: 15px; margin-bottom: 30px; align-items: center; }
         .time-filter button { background-color: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-muted); padding: 10px 20px; border-radius: 10px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; }
         .time-filter button:hover { color: var(--primary-accent); border-color: var(--primary-accent); }
         .time-filter button.active { background-color: var(--primary-light); color: var(--primary-accent); border-color: var(--primary-accent); }
+        .print-btn { background-color: var(--text-dark) !important; color: white !important; border: none !important; margin-left: auto; }
+        .print-btn:hover { background-color: black !important; }
+
+        /* Stats Grid */
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-bottom: 30px; }
         .stats-card .stat-title { font-size: 0.9em; color: var(--text-muted); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.5px; }
         .stats-card .stat-value { font-size: 2em; font-weight: 700; color: var(--text-dark); }
         .stats-card .stat-value .unit { font-size: 0.6em; font-weight: 500; color: var(--text-muted); margin-left: 5px; }
-        .charts-container { display: grid; grid-template-columns: 1fr; gap: 30px; }
-        @media (min-width: 1200px) { .charts-container { grid-template-columns: repeat(3, 1fr); } }
-        .mini-chart-card h3 { font-size: 1.2em; margin-bottom: 20px; text-align: center; }
-        .mini-chart-card canvas { height: 250px !important; }
+        
+        /* --- PERUBAHAN LAYOUT CHART (VERTIKAL) --- */
+        .charts-container { 
+            display: flex; 
+            flex-direction: column; /* Menyusun ke bawah */
+            gap: 40px; /* Jarak antar grafik */
+        }
+        
+        .mini-chart-card {
+            width: 100%; /* Lebar penuh */
+            break-inside: avoid; /* Mencegah grafik terpotong saat dicetak */
+        }
+
+        .mini-chart-card h3 { 
+            font-size: 1.4em; 
+            margin-bottom: 25px; 
+            text-align: left; 
+            padding-left: 10px;
+            border-left: 5px solid var(--primary-accent);
+        }
+        
+        /* Tinggi canvas diperbesar agar lebih jelas */
+        .mini-chart-card canvas { height: 350px !important; width: 100% !important; }
+
+        /* --- CSS KHUSUS CETAK (PRINT) --- */
+        @media print {
+            /* Sembunyikan elemen yang tidak perlu saat dicetak */
+            .sidebar, .time-filter, #refresh-btn { display: none !important; }
+            
+            /* Reset margin dan background */
+            body { background-color: white; -webkit-print-color-adjust: exact; }
+            .main-content { margin-left: 0; padding: 0; width: 100%; }
+            
+            /* Atur tampilan kartu saat dicetak */
+            .card { 
+                box-shadow: none; 
+                border: 1px solid #ccc; 
+                margin-bottom: 20px; 
+                page-break-inside: avoid; /* PENTING: Mencegah kartu terpotong */
+            }
+            .stats-grid { grid-template-columns: repeat(4, 1fr); gap: 10px; }
+            
+            /* Pastikan grafik tercetak dengan baik */
+            .mini-chart-card { 
+                page-break-inside: avoid; /* PENTING: Mencegah grafik terpotong */
+                border: none; 
+                margin-bottom: 40px; /* Memberi jarak antar grafik saat dicetak */
+            }
+            .mini-chart-card h3 { border-left-color: #000; color: #000; }
+            
+            /* Header Laporan */
+            .main-header h1::after { content: " - Laporan Cetak"; font-size: 0.6em; font-weight: normal; }
+        }
     </style>
 </head>
 <body>
@@ -69,17 +130,19 @@
 
     <div class="main-content">
         <header class="main-header">
-            <h1>Analisis Data Historis</h1>
-            <p>Pantau tren dan performa lahan Anda dari data 20 rekaman terakhir.</p>
+            <div>
+                <h1>Analisis Data Historis</h1>
+                <p>Pantau tren dan performa lahan Anda dari data 20 rekaman terakhir.</p>
+            </div>
         </header>
 
         <div class="time-filter">
             <button class="active" id="refresh-btn">
                 <i class="fa-solid fa-sync"></i> Muat Ulang Data
             </button>
-            <p style="margin-left: 20px; color: var(--text-muted); padding-top: 10px;">
-                (Filter waktu belum terhubung ke backend, API akan selalu menampilkan 20 data terakhir)
-            </p>
+            <button class="print-btn" onclick="window.print()">
+                <i class="fa-solid fa-print"></i> Cetak Laporan
+            </button>
         </div>
 
         <div class="stats-grid">
@@ -131,8 +194,12 @@
             maintainAspectRatio: false,
             interaction: { mode: 'index', intersect: false },
             scales: {
-                x: { ticks: { color: 'var(--text-muted)' }, grid: { display: false } },
-                y: { ticks: { color: 'var(--text-muted)' }, grid: { color: 'var(--border-color)' }, title: { display: true, text: yLabel } }
+                x: { ticks: { color: '#8a99a8' }, grid: { display: false } },
+                y: { 
+                    ticks: { color: '#8a99a8' }, 
+                    grid: { color: '#e8edf2' }, 
+                    title: { display: true, text: yLabel } 
+                }
             },
             plugins: {
                 legend: { display: false },
@@ -147,7 +214,6 @@
 
         // --- Fungsi update statistik ---
         function updateStats(data) {
-            // Pastikan data tidak kosong untuk menghindari error
             if (data.tempData.length === 0) {
                 document.getElementById('avg-temp').innerHTML = `-- <span class="unit">°C</span>`;
                 document.getElementById('max-humidity').innerHTML = `-- <span class="unit">%</span>`;
@@ -156,7 +222,6 @@
                 return;
             }
             
-            // Ubah semua data jadi angka (float)
             const temps = data.tempData.map(parseFloat);
             const humidities = data.humidityData.map(parseFloat);
             const soils = data.soilData.map(parseFloat);
@@ -172,20 +237,16 @@
             try {
                 // 1. Panggil API backend untuk data RIWAYAT
                 const response = await fetch('api_provider.php?data=riwayat');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const dataAsli = await response.json(); // Ini adalah array [ {..}, {..} ]
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                
+                const dataAsli = await response.json(); 
 
-                // 2. Proses data asli menjadi format Chart.js
-                // API provider sudah mengurutkan (ORDER BY id ASC) jadi siap pakai
                 let labels = [];
                 let soilData = [];
                 let tempData = [];
                 let humidityData = [];
 
-                dataAsli.forEach((item, index) => {
-                    // Format label waktu agar lebih rapi
+                dataAsli.forEach((item) => {
                     const t = new Date(item.waktu);
                     labels.push(`${t.getHours()}:${t.getMinutes().toString().padStart(2, '0')}`);
                     soilData.push(item.kelembapan_tanah);
@@ -194,18 +255,14 @@
                 });
 
                 const data = { labels, soilData, tempData, humidityData };
-                
-                // 3. Update statistik di card atas
                 updateStats(data);
                 
-                // 4. Definisikan dataset untuk setiap grafik
                 const datasets = {
-                    soil: { label: 'Kelembapan Tanah', data: data.soilData, borderColor: 'var(--soil-color)', pointBackgroundColor: 'var(--soil-color)', options: getChartOptions('%') },
-                    temp: { label: 'Suhu Udara', data: data.tempData, borderColor: 'var(--temp-color)', pointBackgroundColor: 'var(--temp-color)', options: getChartOptions('°C') },
-                    humidity: { label: 'Kelembapan Udara', data: data.humidityData, borderColor: 'var(--humidity-color)', pointBackgroundColor: 'var(--humidity-color)', options: getChartOptions('%') }
+                    soil: { label: 'Kelembapan Tanah', data: data.soilData, borderColor: '#8a5a44', pointBackgroundColor: '#8a5a44', options: getChartOptions('%') },
+                    temp: { label: 'Suhu Udara', data: data.tempData, borderColor: '#e76f51', pointBackgroundColor: '#e76f51', options: getChartOptions('°C') },
+                    humidity: { label: 'Kelembapan Udara', data: data.humidityData, borderColor: '#3a86ff', pointBackgroundColor: '#3a86ff', options: getChartOptions('%') }
                 };
 
-                // 5. Fungsi helper untuk menggambar satu grafik
                 const updateChart = (chartInstance, ctx, datasetConfig) => {
                     const chartData = {
                         labels: data.labels,
@@ -222,18 +279,15 @@
                     };
 
                     if (chartInstance) {
-                        // Jika grafik sudah ada, update datanya
                         chartInstance.data.labels = data.labels;
                         chartInstance.data.datasets[0].data = datasetConfig.data;
                         chartInstance.update();
                         return chartInstance;
                     } else {
-                        // Jika belum ada, buat grafik baru
                         return new Chart(ctx, { type: 'line', data: chartData, options: datasetConfig.options });
                     }
                 };
 
-                // 6. Gambar atau update ketiga grafik
                 soilChart = updateChart(soilChart, ctxSoil, datasets.soil);
                 tempChart = updateChart(tempChart, ctxTemp, datasets.temp);
                 humidityChart = updateChart(humidityChart, ctxHumidity, datasets.humidity);
@@ -243,12 +297,10 @@
             }
         }
 
-        // Event Listener untuk tombol refresh
         document.getElementById('refresh-btn').addEventListener('click', () => {
             createOrUpdateCharts();
         });
 
-        // Inisialisasi awal saat halaman dimuat
         createOrUpdateCharts();
     });
     </script>
