@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AgroTech - Laporan Lengkap</title>
+    <title>AgroTech - Laporan</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -15,13 +15,13 @@
             --bg-main: #f4f7fa; --sidebar-bg: #ffffff; --card-bg: #ffffff;
             --primary-accent: #2a9d8f; --primary-light: #eaf6f5;
             --text-dark: #2c3e50; --text-muted: #8a99a8; --border-color: #e8edf2;
-            --temp-color: #e76f51; --humidity-color: #3a86ff; --soil-color: #8a5a44;
             --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            --shadow-hover: 0 6px 16px rgba(0, 0, 0, 0.12);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background-color: var(--bg-main); color: var(--text-dark); display: flex; min-height: 100vh; }
-        .sidebar { width: 280px; background: var(--sidebar-bg); padding: 30px 20px; height: 100vh; position: fixed; display: flex; flex-direction: column; border-right: 1px solid var(--border-color); }
+        
+        /* Sidebar */
+        .sidebar { width: 280px; background: var(--sidebar-bg); padding: 30px 20px; height: 100vh; position: fixed; display: flex; flex-direction: column; border-right: 1px solid var(--border-color); z-index: 1000; }
         .sidebar-header { display: flex; align-items: center; gap: 15px; margin-bottom: 50px; }
         .sidebar-header i { font-size: 2.2em; color: var(--primary-accent); }
         .sidebar-header h2 { font-size: 1.6em; font-weight: 700; color: var(--text-dark); }
@@ -31,74 +31,83 @@
         .sidebar-nav li a:hover { background: var(--primary-light); color: var(--primary-accent); }
         .sidebar-nav li a.active { background: var(--primary-accent); color: #ffffff; }
         .sidebar-nav li a i { font-size: 1.2em; width: 24px; }
+
+        /* Main Content */
         .main-content { flex-grow: 1; margin-left: 280px; padding: 40px 50px; }
         .main-header { margin-bottom: 40px; }
         .main-header h1 { font-size: 2.5em; font-weight: 700; margin-bottom: 8px; color: var(--text-dark); }
         .main-header p { color: var(--text-muted); font-size: 1.05em; }
-        .card { background: var(--card-bg); border-radius: 16px; padding: 30px; border: 1px solid var(--border-color); box-shadow: var(--shadow); }
+        .card { background: var(--card-bg); border-radius: 16px; padding: 30px; border: 1px solid var(--border-color); box-shadow: var(--shadow); margin-bottom: 30px; }
         
-        /* Generator Form */
-        .report-generator .form-group { margin-bottom: 25px; }
-        .report-generator label { display: block; font-weight: 600; margin-bottom: 10px; font-size: 1.1em; }
-        .option-buttons { display: flex; gap: 15px; }
-        .option-buttons button { background: #f0f3f6; border: 1px solid var(--border-color); color: var(--text-muted); padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 500; transition: all 0.3s ease; }
-        .option-buttons button.selected { background: var(--primary-light); color: var(--primary-accent); border-color: var(--primary-accent); }
-        .generate-btn { width: 100%; background-color: var(--primary-accent); color: white; border: none; padding: 15px; border-radius: 10px; font-size: 1.1em; font-weight: 600; cursor: pointer; transition: all 0.3s ease; margin-top: 20px; }
+        /* Generator Form Styles */
+        .form-group { margin-bottom: 25px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 10px; font-size: 1.1em; }
+        
+        .option-buttons { display: flex; gap: 15px; flex-wrap: wrap; }
+        .option-buttons button { 
+            background: #f0f3f6; border: 1px solid var(--border-color); 
+            color: var(--text-muted); padding: 10px 20px; border-radius: 8px; 
+            cursor: pointer; font-weight: 600; transition: all 0.3s ease; 
+        }
+        .option-buttons button:hover { background: #e2e8f0; }
+        .option-buttons button.selected { 
+            background: var(--primary-light); color: var(--primary-accent); 
+            border-color: var(--primary-accent); box-shadow: 0 0 0 2px var(--primary-light);
+        }
+        
+        /* Custom Date Input (Hidden by default) */
+        .custom-date-wrapper { 
+            display: none; /* Tersembunyi awal */
+            margin-top: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px; border: 1px dashed var(--border-color);
+        }
+        .date-inputs { display: flex; gap: 20px; }
+        .date-field { flex: 1; }
+        input[type="date"] { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); }
+
+        .generate-btn { width: 100%; background-color: var(--primary-accent); color: white; border: none; padding: 15px; border-radius: 10px; font-size: 1.1em; font-weight: 600; cursor: pointer; transition: all 0.3s ease; margin-top: 10px; }
         .generate-btn:hover { background-color: #248a7f; }
+
+        /* Report Preview */
+        .report-preview { display: none; } /* Tersembunyi sampai di-generate */
+        .report-header { text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid var(--border-color); }
+        .report-header h2 { font-size: 2em; color: var(--primary-accent); margin-bottom: 5px; }
         
-        /* Preview Section */
-        .report-preview { display: none; margin-top: 30px; padding: 40px; }
-        .report-header { text-align: center; margin-bottom: 30px; }
-        .report-header h2 { font-size: 1.8em; color: var(--primary-accent); }
-        .report-header p { color: var(--text-muted); }
-        
-        /* Stats Grid */
-        .report-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; text-align: center; margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 30px; }
-        .stat-item p { margin: 0; color: var(--text-muted); font-size: 0.9em; text-transform: uppercase; }
-        .stat-item h3 { margin: 5px 0 0; font-size: 1.8em; color: var(--text-dark); }
-        
-        /* Chart Area */
+        .report-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; text-align: center; margin-bottom: 40px; }
+        .stat-item h3 { font-size: 2em; color: var(--text-dark); margin: 5px 0 0; }
+        .stat-item p { color: var(--text-muted); font-size: 0.9em; text-transform: uppercase; letter-spacing: 1px; }
+
         .report-chart { height: 300px; margin-bottom: 40px; width: 100%; }
         
-        /* --- DATA TABLE STYLING (BARU) --- */
-        .report-data-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; font-size: 0.95em; }
-        .report-data-table th, .report-data-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid var(--border-color); }
-        .report-data-table th { background-color: #f8f9fb; font-weight: 600; color: var(--text-dark); }
-        .report-data-table tr:hover { background-color: #f1f1f1; }
-        .status-badge { padding: 4px 8px; border-radius: 4px; font-size: 0.85em; font-weight: 600; }
-        .status-on { background-color: #d1fae5; color: #065f46; } /* Hijau */
-        .status-off { background-color: #fee2e2; color: #991b1b; } /* Merah */
-        .status-rain { background-color: #dbeafe; color: #1e40af; } /* Biru */
-        .status-dry { background-color: #fef3c7; color: #92400e; } /* Kuning */
-
-        /* Actions */
-        .report-actions { display: flex; justify-content: center; gap: 20px; }
-        .report-actions button { padding: 12px 25px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; font-size: 1em; }
-        .btn-download { background: var(--primary-accent); color: white; border: none; }
-        .btn-download:hover { background: #248a7f; }
-        .btn-print { background: transparent; color: var(--text-dark); border: 1px solid var(--border-color); }
-        .btn-print:hover { background: #e8edf2; }
+        /* Table */
+        .table-responsive { overflow-x: auto; }
+        .report-data-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.95em; }
+        .report-data-table th { background-color: #f8f9fb; color: var(--text-dark); font-weight: 600; text-align: left; padding: 12px 15px; border-bottom: 2px solid var(--border-color); }
+        .report-data-table td { padding: 12px 15px; border-bottom: 1px solid var(--border-color); color: var(--text-dark); }
         
-        /* History Card */
-        .history-card { margin-top: 30px; }
-        .history-table { width: 100%; border-collapse: collapse; }
-        .history-table th, .history-table td { text-align: left; padding: 15px; border-bottom: 1px solid var(--border-color); }
-        .history-table th { color: var(--text-muted); font-size: 0.9em; text-transform: uppercase; }
-        .history-table td a { color: var(--primary-accent); text-decoration: none; font-weight: 600; }
+        .badge { padding: 5px 10px; border-radius: 20px; font-size: 0.85em; font-weight: 600; }
+        .badge-on { background: #d1fae5; color: #065f46; }
+        .badge-off { background: #f1f5f9; color: #64748b; }
+        .badge-rain { background: #dbeafe; color: #1e40af; }
+        .badge-dry { background: #ffedd5; color: #9a3412; }
 
-        /* --- CSS KHUSUS CETAK / PRINT --- */
+        /* Print Actions */
+        .report-actions { display: flex; justify-content: center; gap: 20px; margin-top: 40px; }
+        .action-btn { padding: 12px 25px; border-radius: 8px; cursor: pointer; font-weight: 600; border: none; display: flex; align-items: center; gap: 10px; transition: 0.3s; }
+        .btn-pdf { background: var(--text-dark); color: white; }
+        .btn-print { background: var(--primary-accent); color: white; }
+
+        /* --- CSS KHUSUS CETAK --- */
         @media print {
-            .sidebar, .main-header, .report-generator, .history-card, .report-actions { display: none !important; }
-            body { background-color: white; -webkit-print-color-adjust: exact; font-size: 12pt; }
+            @page { margin: 2cm; size: auto; }
+            body { background-color: white; }
+            .sidebar, .main-header, .report-generator, .report-actions { display: none !important; }
             .main-content { margin: 0; padding: 0; width: 100%; }
-            .card { box-shadow: none; border: none; padding: 0; }
-            .report-preview { display: block !important; margin: 0; padding: 0; }
-            .report-header { margin-bottom: 20px; border-bottom: 2px solid var(--primary-accent); padding-bottom: 10px; }
-            .report-stats { margin-bottom: 20px; padding-bottom: 20px; grid-template-columns: repeat(3, 1fr); }
-            .report-chart { height: 250px !important; page-break-inside: avoid; margin-bottom: 20px; }
-            .report-data-table th { background-color: #eee !important; color: black !important; }
-            .report-data-table { page-break-inside: auto; }
-            .report-data-table tr { page-break-inside: avoid; page-break-after: auto; }
+            .card { box-shadow: none; border: none; padding: 0; margin: 0; }
+            .report-preview { display: block !important; }
+            .report-chart { height: 300px !important; page-break-inside: avoid; }
+            .report-data-table { width: 100%; border: 1px solid #000; }
+            .report-data-table th { background-color: #eee !important; color: black !important; border: 1px solid #000; }
+            .report-data-table td { border: 1px solid #000; color: black; }
         }
     </style>
 </head>
@@ -127,204 +136,234 @@
         <div class="card report-generator">
             <div class="form-group">
                 <label>Pilih Jenis Laporan</label>
-                <div class="option-buttons" id="report-type-options">
-                    <button class="selected" data-type="umum">Ringkasan Umum (Data Riwayat)</button>
-                    <button data-type="penyiraman" disabled>Laporan Penyiraman (Segera Hadir)</button>
+                <div class="option-buttons" id="report-type-wrapper">
+                    <button class="selected" onclick="selectType(this, 'umum')">Ringkasan Umum</button>
+                    <button onclick="selectType(this, 'penyiraman')">Laporan Penyiraman</button>
                 </div>
             </div>
+            
             <div class="form-group">
                 <label>Pilih Rentang Waktu</label>
-                <div class="option-buttons" id="date-range-options">
-                    <button class="selected" data-range="history">Data Riwayat Terakhir (API)</button>
-                    <button data-range="7d" disabled>Minggu Lalu</button>
-                    <button data-range="90d" disabled>3 Bulan Terakhir</button>
+                <div class="option-buttons" id="date-range-wrapper">
+                    <button class="selected" onclick="selectDate(this, 'all')">Semua Data</button>
+                    <button onclick="selectDate(this, 'today')">Hari Ini</button>
+                    <button onclick="selectDate(this, 'custom')">Custom Tanggal</button>
+                </div>
+                
+                <div class="custom-date-wrapper" id="custom-date-input">
+                    <div class="date-inputs">
+                        <div class="date-field">
+                            <span style="font-size: 0.9em; color: #888;">Dari Tanggal</span>
+                            <input type="date" id="start-date">
+                        </div>
+                        <div class="date-field">
+                            <span style="font-size: 0.9em; color: #888;">Sampai Tanggal</span>
+                            <input type="date" id="end-date">
+                        </div>
+                    </div>
                 </div>
             </div>
-            <button class="generate-btn" id="generate-report-btn">
+
+            <button class="generate-btn" onclick="generateReport()">
                 <i class="fa-solid fa-file-invoice"></i> Buat Laporan
             </button>
         </div>
 
-        <div class="card report-preview" id="report-preview">
+        <div class="card report-preview" id="report-view">
             <div class="report-header">
-                <h2 id="report-title">Laporan Ringkasan</h2>
-                <p id="report-period">Periode: Data Terakhir</p>
+                <h2 id="judul-laporan">Laporan Umum</h2>
+                <p id="periode-laporan">Periode: Semua Data</p>
             </div>
 
-            <div class="report-stats" id="report-stats-content">
-                </div>
+            <div class="report-stats" id="stats-container"></div>
 
-            <div class="report-chart">
+            <div style="width: 100%; height: 300px; margin-bottom: 30px;">
                 <canvas id="reportChart"></canvas>
             </div>
 
-            <h3 style="margin-bottom: 15px; border-left: 4px solid var(--primary-accent); padding-left: 10px;">Rincian Data Sensor</h3>
-            <div id="table-container">
-                </div>
+            <h3 style="margin-bottom: 15px;">Rincian Data</h3>
+            <div class="table-responsive">
+                <table class="report-data-table">
+                    <thead>
+                        <tr>
+                            <th>Waktu</th>
+                            <th>Suhu</th>
+                            <th>Kelembapan</th>
+                            <th>Tanah</th>
+                            <th>Cuaca</th>
+                            <th>Status Pompa</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body"></tbody>
+                </table>
+            </div>
 
             <div class="report-actions">
-                <button class="btn-download" id="btn-download"><i class="fa-solid fa-download"></i> Unduh PDF</button>
-                <button class="btn-print" id="btn-print"><i class="fa-solid fa-print"></i> Cetak Laporan</button>
+                <button class="action-btn btn-pdf" onclick="window.print()"><i class="fa-solid fa-file-pdf"></i> Simpan PDF</button>
+                <button class="action-btn btn-print" onclick="window.print()"><i class="fa-solid fa-print"></i> Cetak Laporan</button>
             </div>
-        </div>
-        
-        <div class="card history-card">
-            <h3>Riwayat Laporan</h3>
-            <table class="history-table">
-                <thead>
-                    <tr><th>Tanggal Dibuat</th><th>Jenis Laporan</th><th>Rentang Waktu</th><th>Tindakan</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>20 Okt 2025</td><td>Ringkasan Umum</td><td>01 Okt - 20 Okt</td><td><a href="#">Lihat</a></td></tr>
-                    <tr><td>01 Okt 2025</td><td>Laporan Penyiraman</td><td>01 Sep - 30 Sep</td><td><a href="#">Lihat</a></td></tr>
-                </tbody>
-            </table>
         </div>
     </div>
 
     <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const generateBtn = document.getElementById('generate-report-btn');
-        const reportPreviewEl = document.getElementById('report-preview');
-        const reportStatsEl = document.getElementById('report-stats-content');
-        const reportTitleEl = document.getElementById('report-title');
-        const reportPeriodEl = document.getElementById('report-period');
-        const tableContainer = document.getElementById('table-container'); // Wadah tabel
-        const btnPrint = document.getElementById('btn-print');
-        const btnDownload = document.getElementById('btn-download');
-        let reportChart; 
+        let currentType = 'umum'; 
+        let dateFilter = 'all';
+        let chartInstance = null;
 
-        // --- Fungsi Tombol Print ---
-        function triggerPrint() { window.print(); }
-        if(btnPrint) btnPrint.addEventListener('click', triggerPrint);
-        if(btnDownload) btnDownload.addEventListener('click', triggerPrint);
+        // Fungsi Ganti Tombol Jenis Laporan
+        function selectType(btn, type) {
+            document.querySelectorAll('#report-type-wrapper button').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            currentType = type;
+        }
 
-        // --- Fungsi Utama Generate Laporan ---
-        generateBtn.addEventListener('click', async function() {
-            this.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mengambil data...';
-            this.disabled = true;
+        // Fungsi Ganti Tombol Tanggal
+        function selectDate(btn, range) {
+            document.querySelectorAll('#date-range-wrapper button').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            dateFilter = range;
 
+            // Tampilkan input custom hanya jika dipilih
+            const customInput = document.getElementById('custom-date-input');
+            if (range === 'custom') {
+                customInput.style.display = 'block';
+            } else {
+                customInput.style.display = 'none';
+            }
+        }
+
+        // Fungsi Utama Generate
+        async function generateReport() {
+            const btn = document.querySelector('.generate-btn');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memproses...';
+            
             try {
                 const response = await fetch('api_provider.php?data=riwayat');
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                const dataAsli = await response.json();
+                const rawData = await response.json();
 
-                if (dataAsli.length === 0) {
-                    alert("Tidak ada data untuk ditampilkan.");
-                    this.innerHTML = 'Buat Laporan'; this.disabled = false; return;
+                if (!rawData || rawData.length === 0) {
+                    alert("Belum ada data di database.");
+                    return;
                 }
 
-                // 1. Hitung Statistik
-                const soils = dataAsli.map(d => parseFloat(d.kelembapan_tanah));
-                const temps = dataAsli.map(d => parseFloat(d.suhu_udara));
-                const humidities = dataAsli.map(d => parseFloat(d.kelembapan_udara));
-                const avgTemp = (temps.reduce((a, b) => a + b, 0) / temps.length).toFixed(1);
-                const minSoil = Math.min(...soils);
-                const maxHumidity = Math.max(...humidities);
+                // 1. FILTER DATA
+                let filteredData = rawData;
                 
-                reportStatsEl.innerHTML = `
-                    <div class="stat-item"><p>Suhu Rata-rata</p><h3>${avgTemp}°C</h3></div>
-                    <div class="stat-item"><p>Kelembapan Tanah Min.</p><h3>${minSoil}%</h3></div>
-                    <div class="stat-item"><p>Kelembapan Udara Maks.</p><h3>${maxHumidity}%</h3></div>
-                `;
+                // Filter Tanggal
+                const today = new Date();
+                today.setHours(0,0,0,0);
 
-                // 2. Update Judul
-                const t = new Date();
-                const tanggalCetak = `${t.getDate()}/${t.getMonth()+1}/${t.getFullYear()} ${t.getHours()}:${t.getMinutes()}`;
-                reportTitleEl.textContent = "Laporan Data Sensor";
-                reportPeriodEl.textContent = `Dicetak pada: ${tanggalCetak} | Total Data: ${dataAsli.length}`;
+                if (dateFilter === 'today') {
+                    filteredData = rawData.filter(item => new Date(item.waktu) >= today);
+                } 
+                else if (dateFilter === 'custom') {
+                    const startDate = document.getElementById('start-date').value;
+                    const endDate = document.getElementById('end-date').value;
+                    if (startDate && endDate) {
+                        const start = new Date(startDate);
+                        const end = new Date(endDate);
+                        end.setHours(23, 59, 59);
+                        filteredData = rawData.filter(item => {
+                            const d = new Date(item.waktu);
+                            return d >= start && d <= end;
+                        });
+                    }
+                }
 
-                // 3. Generate Grafik
-                reportPreviewEl.style.display = 'block';
-                generatePreviewChart(dataAsli); 
+                // Filter Jenis (Penyiraman)
+                if (currentType === 'penyiraman') {
+                    filteredData = filteredData.filter(item => item.status_pompa == 1);
+                }
 
-                // 4. GENERATE TABEL DATA (BARU)
-                let tableHTML = `
-                    <table class="report-data-table">
-                        <thead>
-                            <tr>
-                                <th>Waktu</th>
-                                <th>Suhu (°C)</th>
-                                <th>Udara (%)</th>
-                                <th>Tanah (%)</th>
-                                <th>Cuaca</th>
-                                <th>Pompa</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                `;
+                if (filteredData.length === 0) {
+                    alert("Tidak ada data yang cocok dengan filter Anda.");
+                    return;
+                }
 
-                // Loop data dan buat baris tabel
-                dataAsli.forEach(row => {
-                    const waktu = new Date(row.waktu).toLocaleString('id-ID');
-                    const statusHujan = row.status_hujan == 1 
-                        ? '<span class="status-badge status-rain">Hujan</span>' 
-                        : '<span class="status-badge status-dry">Cerah</span>';
-                    const statusPompa = row.status_pompa == 1 
-                        ? '<span class="status-badge status-on">Nyala</span>' 
-                        : '<span class="status-badge status-off">Mati</span>';
+                // 2. UPDATE UI
+                updateStats(filteredData);
+                renderTable(filteredData);
+                renderChart(filteredData);
 
-                    tableHTML += `
-                        <tr>
-                            <td>${waktu}</td>
-                            <td>${row.suhu_udara}</td>
-                            <td>${row.kelembapan_udara}</td>
-                            <td>${row.kelembapan_tanah}</td>
-                            <td>${statusHujan}</td>
-                            <td>${statusPompa}</td>
-                        </tr>
-                    `;
-                });
+                // Set Judul Laporan
+                document.getElementById('judul-laporan').innerText = currentType === 'penyiraman' ? "Laporan Riwayat Penyiraman" : "Ringkasan Kondisi Lahan";
+                document.getElementById('periode-laporan').innerText = `Dicetak pada: ${new Date().toLocaleString('id-ID')}`;
 
-                tableHTML += `</tbody></table>`;
-                tableContainer.innerHTML = tableHTML;
-
-                // Selesai
-                this.innerHTML = '<i class="fa-solid fa-file-invoice"></i> Buat Laporan';
-                this.disabled = false;
-                reportPreviewEl.scrollIntoView({ behavior: 'smooth' });
+                // Tampilkan Hasil
+                document.getElementById('report-view').style.display = 'block';
+                document.getElementById('report-view').scrollIntoView({ behavior: 'smooth' });
 
             } catch (error) {
-                console.error("Error:", error);
-                alert("Gagal memuat data.");
-                this.innerHTML = 'Gagal';
-                this.disabled = false;
+                console.error(error);
+                alert("Gagal memproses data.");
+            } finally {
+                btn.innerHTML = '<i class="fa-solid fa-file-invoice"></i> Buat Laporan';
             }
-        });
-        
-        function generatePreviewChart(dataAsli) {
-            const ctx = document.getElementById('reportChart').getContext('2d');
-            const labels = dataAsli.map(item => new Date(item.waktu).toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'}));
-            const soilData = dataAsli.map(item => item.kelembapan_tanah);
+        }
 
-            if (reportChart) reportChart.destroy(); 
-            
-            reportChart = new Chart(ctx, {
+        function updateStats(data) {
+            const avgTemp = (data.reduce((acc, item) => acc + parseFloat(item.suhu_udara), 0) / data.length).toFixed(1);
+            const minSoil = Math.min(...data.map(d => d.kelembapan_tanah));
+            const maxHum = Math.max(...data.map(d => d.kelembapan_udara));
+
+            document.getElementById('stats-container').innerHTML = `
+                <div class="stat-item"><p>Suhu Rata-rata</p><h3>${avgTemp}°C</h3></div>
+                <div class="stat-item"><p>Kelembapan Tanah Min.</p><h3>${minSoil}%</h3></div>
+                <div class="stat-item"><p>Data Terekam</p><h3>${data.length} Baris</h3></div>
+            `;
+        }
+
+        function renderTable(data) {
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = '';
+            data.forEach(row => {
+                const date = new Date(row.waktu).toLocaleString('id-ID');
+                const weatherBadge = row.status_hujan == 1 
+                    ? `<span class="badge badge-rain"><i class="fa-solid fa-cloud-rain"></i> Hujan</span>` 
+                    : `<span class="badge badge-dry"><i class="fa-solid fa-sun"></i> Cerah</span>`;
+                const pumpBadge = row.status_pompa == 1 
+                    ? `<span class="badge badge-on">NYALA</span>` 
+                    : `<span class="badge badge-off">Mati</span>`;
+
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${date}</td>
+                        <td>${row.suhu_udara}°C</td>
+                        <td>${row.kelembapan_udara}%</td>
+                        <td><strong>${row.kelembapan_tanah}%</strong></td>
+                        <td>${weatherBadge}</td>
+                        <td>${pumpBadge}</td>
+                    </tr>`;
+            });
+        }
+
+        function renderChart(data) {
+            const ctx = document.getElementById('reportChart').getContext('2d');
+            if (chartInstance) chartInstance.destroy();
+
+            chartInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: labels,
+                    labels: data.map(d => {
+                        const t = new Date(d.waktu);
+                        return `${t.getHours()}:${t.getMinutes()}`;
+                    }),
                     datasets: [{
                         label: 'Kelembapan Tanah (%)',
-                        data: soilData,
+                        data: data.map(d => d.kelembapan_tanah),
                         borderColor: '#2a9d8f',
                         backgroundColor: 'rgba(42, 157, 143, 0.1)',
                         fill: true,
-                        tension: 0.3,
-                        borderWidth: 2
+                        tension: 0.4
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { display: true } },
-                    scales: {
-                        y: { beginAtZero: false },
-                        x: { ticks: { maxTicksLimit: 10 } }
-                    }
+                    scales: { y: { beginAtZero: false } }
                 }
             });
         }
-    });
     </script>
 </body>
 </html>

@@ -9,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        /* --- TEMA V4: NATURAL & JELAS --- */
         :root {
             --bg-main: #f4f7fa; --sidebar-bg: #ffffff; --card-bg: #ffffff;
             --primary-accent: #2a9d8f; --primary-light: #eaf6f5;
@@ -106,7 +105,6 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // --- Ambil Elemen HTML untuk diupdate ---
         const priorityCardEl = document.getElementById('priority-card');
         const priorityIconEl = document.getElementById('priority-icon');
         const priorityTitleEl = document.getElementById('priority-title');
@@ -117,14 +115,11 @@
         const liveTempEl = document.getElementById('live-temp');
         const liveRainEl = document.getElementById('live-rain');
         
-        // --- MESIN LOGIKA REKOMENDASI (IF-ELSE) ---
-        // (Logika ini tidak perlu diubah, ia hanya perlu data asli)
         function generateRecommendations(soil, temp, isHujan) {
             let priority = {};
             let wateringRecsHTML = '';
             let careRecsHTML = '';
 
-            // --- Skenario 1: Hujan Terdeteksi ---
             if (isHujan) {
                 priority = {
                     icon: 'fa-solid fa-cloud-showers-heavy', color: 'var(--humidity-color)', title: 'Hujan Terdeteksi',
@@ -132,15 +127,13 @@
                 };
                 wateringRecsHTML = `<li class="recommendation-item"><i class="item-icon fa-solid fa-ban"></i><div class="item-content"><h4 class="item-title">Penyiraman Ditunda</h4><p class="item-description">Pompa tidak akan menyala meskipun tanah kering karena hujan sudah terdeteksi.</p></div></li>`;
 
-            // --- Skenario 2: Tanah Kering (dan TIDAK Hujan) ---
-            } else if (soil < 35) { // Angka 35 bisa diambil dari file pengaturan.html
+            } else if (soil < 35) { 
                 priority = {
                     icon: 'fa-solid fa-droplet', color: 'var(--soil-color)', title: 'TINDAKAN DIPERLUKAN: Tanah Kering',
                     desc: `Kelembapan tanah (${soil}%) di bawah ambang batas! Sistem akan segera menyiram tanaman.`
                 };
                 wateringRecsHTML = `<li class="recommendation-item"><i class="item-icon fa-solid fa-play-circle"></i><div class="item-content"><h4 class="item-title">Pompa Akan Aktif</h4><p class="item-description">Sistem otomatis akan menyalakan pompa untuk mengembalikan kelembapan ideal.</p></div></li>`;
             
-            // --- Skenario 3: Kondisi Ideal (dan TIDAK Hujan) ---
             } else if (soil >= 35 && soil <= 70) {
                  priority = {
                     icon: 'fa-solid fa-check-circle', color: 'var(--primary-accent)', title: 'Kondisi Lahan Optimal',
@@ -148,8 +141,7 @@
                 };
                  wateringRecsHTML = `<li class="recommendation-item"><i class="item-icon fa-solid fa-power-off"></i><div class="item-content"><h4 class="item-title">Pompa Tetap Mati</h4><p class="item-description">Kelembapan tanah sudah cukup. Sistem menghemat air.</p></div></li>`;
 
-            // --- Skenario 4: Tanah Terlalu Basah (dan TIDAK Hujan) ---
-            } else { // soil > 70
+            } else { 
                  priority = {
                     icon: 'fa-solid fa-triangle-exclamation', color: 'var(--warning-color)', title: 'PERINGATAN: Kelembapan Terlalu Tinggi',
                     desc: `Tanah terlalu basah (${soil}%). Kondisi ini berisiko menyebabkan busuk akar. Pastikan pompa tidak aktif.`
@@ -157,14 +149,12 @@
                  wateringRecsHTML = `<li class="recommendation-item"><i class="item-icon fa-solid fa-ban"></i><div class="item-content"><h4 class="item-title">Nonaktifkan Penyiraman</h4><p class="item-description">Pastikan pompa tidak menyala. Periksa drainase jika kondisi ini bertahan lama.</p></div></li>`;
             }
             
-            // --- Rekomendasi tambahan berdasarkan suhu (selalu tampil) ---
             if (temp > 32) {
                 careRecsHTML = `<li class="recommendation-item"><i class="item-icon fa-solid fa-temperature-high" style="color:var(--temp-color)"></i><div class="item-content"><h4 class="item-title">Waspada Stres Panas</h4><p class="item-description">Suhu udara saat ini (${temp}°C) cukup tinggi. Pastikan tanaman tidak layu.</p></div></li>`;
             } else {
                  careRecsHTML = `<li class="recommendation-item"><i class="item-icon fa-solid fa-sun"></i><div class="item-content"><h4 class="item-title">Suhu Ideal</h4><p class="item-description">Suhu udara (${temp}°C) berada dalam rentang yang nyaman untuk pertumbuhan tanaman.</p></div></li>`;
             }
 
-            // --- Update UI ---
             priorityIconEl.className = priority.icon;
             priorityIconEl.style.color = priority.color;
             priorityCardEl.style.borderColor = priority.color;
@@ -173,11 +163,8 @@
             wateringRecsEl.innerHTML = wateringRecsHTML;
             careRecsEl.innerHTML = careRecsHTML;
         }
-
-        // === FUNGSI UTAMA PENGAMBIL DATA (ASLI DARI BACKEND) ===
         async function runUpdate() {
             try {
-                // 1. Panggil API backend untuk data TERBARU
                 const response = await fetch('api_provider.php?data=terbaru');
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -189,17 +176,14 @@
                     return; 
                 }
 
-                // 2. Gunakan data asli dari database
                 const soil = parseFloat(data.kelembapan_tanah).toFixed(1);
                 const temp = parseFloat(data.suhu_udara).toFixed(1);
                 const isHujan = data.status_hujan == 1;
 
-                // 3. Update data live di UI
                 liveSoilEl.textContent = `${soil}%`;
                 liveTempEl.textContent = `${temp}°C`;
                 liveRainEl.textContent = isHujan ? "Ya" : "Tidak";
 
-                // 4. Panggil mesin logika rekomendasi dengan data asli
                 generateRecommendations(soil, temp, isHujan);
 
             } catch (error) {
@@ -211,9 +195,7 @@
             }
         }
 
-        // Jalankan saat load
         runUpdate();
-        // Atur interval untuk refresh data (misal: setiap 5 detik)
         setInterval(runUpdate, 5000);
     });
     </script>

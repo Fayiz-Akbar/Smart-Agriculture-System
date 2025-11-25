@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* --- TEMA V4: NATURAL & JELAS --- */
         :root {
             --bg-main: #f4f7fa; --sidebar-bg: #ffffff; --card-bg: #ffffff;
             --primary-accent: #2a9d8f; --primary-light: #eaf6f5;
@@ -22,7 +21,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background-color: var(--bg-main); color: var(--text-dark); display: flex; min-height: 100vh; }
         
-        /* Sidebar Style */
         .sidebar { width: 280px; background: var(--sidebar-bg); padding: 30px 20px; height: 100vh; position: fixed; display: flex; flex-direction: column; border-right: 1px solid var(--border-color); z-index: 1000; }
         .sidebar-header { display: flex; align-items: center; gap: 15px; margin-bottom: 50px; }
         .sidebar-header i { font-size: 2.2em; color: var(--primary-accent); }
@@ -34,17 +32,14 @@
         .sidebar-nav li a.active { background: var(--primary-accent); color: #ffffff; }
         .sidebar-nav li a i { font-size: 1.2em; width: 24px; }
 
-        /* Main Content */
         .main-content { flex-grow: 1; margin-left: 280px; padding: 40px 50px; }
         .main-header { margin-bottom: 40px; display: flex; justify-content: space-between; align-items: center; }
         .main-header h1 { font-size: 2.5em; font-weight: 700; margin-bottom: 8px; color: var(--text-dark); }
         .main-header p { color: var(--text-muted); font-size: 1.05em; }
 
-        /* Cards */
         .card { background: var(--card-bg); border-radius: 16px; padding: 30px; border: 1px solid var(--border-color); box-shadow: var(--shadow); transition: all 0.3s ease; }
         .card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
         
-        /* Filters */
         .time-filter { display: flex; gap: 15px; margin-bottom: 30px; align-items: center; }
         .time-filter button { background-color: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-muted); padding: 10px 20px; border-radius: 10px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; }
         .time-filter button:hover { color: var(--primary-accent); border-color: var(--primary-accent); }
@@ -52,22 +47,20 @@
         .print-btn { background-color: var(--text-dark) !important; color: white !important; border: none !important; margin-left: auto; }
         .print-btn:hover { background-color: black !important; }
 
-        /* Stats Grid */
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-bottom: 30px; }
         .stats-card .stat-title { font-size: 0.9em; color: var(--text-muted); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.5px; }
         .stats-card .stat-value { font-size: 2em; font-weight: 700; color: var(--text-dark); }
         .stats-card .stat-value .unit { font-size: 0.6em; font-weight: 500; color: var(--text-muted); margin-left: 5px; }
         
-        /* --- PERUBAHAN LAYOUT CHART (VERTIKAL) --- */
         .charts-container { 
             display: flex; 
-            flex-direction: column; /* Menyusun ke bawah */
-            gap: 40px; /* Jarak antar grafik */
+            flex-direction: column;
+            gap: 40px; 
         }
         
         .mini-chart-card {
-            width: 100%; /* Lebar penuh */
-            break-inside: avoid; /* Mencegah grafik terpotong saat dicetak */
+            width: 100%; 
+            break-inside: avoid; 
         }
 
         .mini-chart-card h3 { 
@@ -78,36 +71,29 @@
             border-left: 5px solid var(--primary-accent);
         }
         
-        /* Tinggi canvas diperbesar agar lebih jelas */
         .mini-chart-card canvas { height: 350px !important; width: 100% !important; }
 
-        /* --- CSS KHUSUS CETAK (PRINT) --- */
         @media print {
-            /* Sembunyikan elemen yang tidak perlu saat dicetak */
             .sidebar, .time-filter, #refresh-btn { display: none !important; }
             
-            /* Reset margin dan background */
             body { background-color: white; -webkit-print-color-adjust: exact; }
             .main-content { margin-left: 0; padding: 0; width: 100%; }
             
-            /* Atur tampilan kartu saat dicetak */
             .card { 
                 box-shadow: none; 
                 border: 1px solid #ccc; 
                 margin-bottom: 20px; 
-                page-break-inside: avoid; /* PENTING: Mencegah kartu terpotong */
+                page-break-inside: avoid;
             }
             .stats-grid { grid-template-columns: repeat(4, 1fr); gap: 10px; }
             
-            /* Pastikan grafik tercetak dengan baik */
             .mini-chart-card { 
-                page-break-inside: avoid; /* PENTING: Mencegah grafik terpotong */
+                page-break-inside: avoid;
                 border: none; 
-                margin-bottom: 40px; /* Memberi jarak antar grafik saat dicetak */
+                margin-bottom: 40px; 
             }
             .mini-chart-card h3 { border-left-color: #000; color: #000; }
             
-            /* Header Laporan */
             .main-header h1::after { content: " - Laporan Cetak"; font-size: 0.6em; font-weight: normal; }
         }
     </style>
@@ -182,13 +168,11 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Ambil canvas untuk 3 grafik
         const ctxSoil = document.getElementById('soilChart').getContext('2d');
         const ctxTemp = document.getElementById('tempChart').getContext('2d');
         const ctxHumidity = document.getElementById('humidityChart').getContext('2d');
         let soilChart, tempChart, humidityChart;
 
-        // --- Konfigurasi dasar untuk semua grafik mini ---
         const getChartOptions = (yLabel) => ({
             responsive: true,
             maintainAspectRatio: false,
@@ -212,7 +196,6 @@
             elements: { line: { tension: 0.4 } }
         });
 
-        // --- Fungsi update statistik ---
         function updateStats(data) {
             if (data.tempData.length === 0) {
                 document.getElementById('avg-temp').innerHTML = `-- <span class="unit">°C</span>`;
@@ -232,10 +215,8 @@
             document.getElementById('total-data').innerHTML = `${data.labels.length} <span class="unit">Data</span>`;
         }
         
-        // === FUNGSI UTAMA PENGAMBIL DATA (ASLI DARI BACKEND) ===
         async function createOrUpdateCharts() {
             try {
-                // 1. Panggil API backend untuk data RIWAYAT
                 const response = await fetch('api_provider.php?data=riwayat');
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 

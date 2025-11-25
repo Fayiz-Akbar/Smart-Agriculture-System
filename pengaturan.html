@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AgroTech - Pengaturan (Refined)</title>
+    <title>AgroTech - Pengaturan</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -18,6 +18,8 @@
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background-color: var(--bg-main); color: var(--text-dark); display: flex; min-height: 100vh; }
+        
+        /* Sidebar */
         .sidebar { width: 280px; background: var(--sidebar-bg); padding: 30px 20px; height: 100vh; position: fixed; display: flex; flex-direction: column; border-right: 1px solid var(--border-color); }
         .sidebar-header { display: flex; align-items: center; gap: 15px; margin-bottom: 50px; }
         .sidebar-header i { font-size: 2.2em; color: var(--primary-accent); }
@@ -28,25 +30,19 @@
         .sidebar-nav li a:hover { background: var(--primary-light); color: var(--primary-accent); }
         .sidebar-nav li a.active { background: var(--primary-accent); color: #ffffff; }
         .sidebar-nav li a i { font-size: 1.2em; width: 24px; }
+
+        /* Main Content */
         .main-content { flex-grow: 1; margin-left: 280px; padding: 40px 50px; }
         .main-header { margin-bottom: 40px; }
         .main-header h1 { font-size: 2.5em; font-weight: 700; margin-bottom: 8px; color: var(--text-dark); }
         .main-header p { color: var(--text-muted); font-size: 1.05em; }
+
+        /* Card */
         .card { background: var(--card-bg); border-radius: 16px; padding: 0; border: 1px solid var(--border-color); box-shadow: var(--shadow); }
         .card-body { padding: 30px; }
         .card-footer { padding: 20px 30px; background-color: #f8f9fb; border-top: 1px solid var(--border-color); border-radius: 0 0 16px 16px; text-align: right; }
-        .settings-tabs { display: flex; gap: 10px; border-bottom: 1px solid var(--border-color); margin-bottom: 30px; }
-        .settings-tabs button { background: none; border: none; padding: 15px 25px; font-size: 1.1em; font-weight: 600; cursor: pointer; color: var(--text-muted); position: relative; transition: color 0.3s ease; }
-        .settings-tabs button::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 3px; background: var(--primary-accent); transform: scaleX(0); transition: transform 0.3s ease; }
-        .settings-tabs button.active { color: var(--primary-accent); }
-        .settings-tabs button.active::after { transform: scaleX(1); }
-        .tab-pane { display: none; }
-        .tab-pane.active { display: block; animation: fadeIn 0.5s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .form-group { margin-bottom: 25px; }
-        .form-group label { display: block; font-weight: 600; margin-bottom: 10px; }
-        .form-group input, .form-group select { width: 100%; padding: 12px 15px; border-radius: 8px; border: 1px solid var(--border-color); background: #f8f9fb; font-size: 1em; font-family: 'Inter', sans-serif; }
-        .form-group input:focus { outline: none; border-color: var(--primary-accent); box-shadow: 0 0 0 2px var(--primary-light); }
+
+        /* Settings Item */
         .setting-item { display: flex; justify-content: space-between; align-items: center; padding: 25px 0; border-bottom: 1px solid var(--border-color); }
         .setting-item:first-of-type { padding-top: 0; }
         .setting-item:last-of-type { border-bottom: none; }
@@ -54,20 +50,23 @@
         .setting-item .description h4 { margin: 0 0 5px; font-weight: 600; }
         .setting-item .description p { margin: 0; color: var(--text-muted); font-size: 0.9em; }
         .setting-item .control { flex-shrink: 0; width: 50%; }
+
+        /* Controls */
         .slider-container { display: flex; align-items: center; gap: 20px; }
         input[type="range"] { -webkit-appearance: none; appearance: none; flex-grow: 1; height: 8px; background: var(--border-color); border-radius: 5px; outline: none; background-image: linear-gradient(var(--primary-accent), var(--primary-accent)); background-size: 35% 100%; background-repeat: no-repeat; }
         input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 22px; height: 22px; background: var(--primary-accent); cursor: pointer; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-        input[type="range"]::-moz-range-thumb { width: 22px; height: 22px; background: var(--primary-accent); cursor: pointer; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
         .slider-value { font-weight: 600; font-size: 1.2em; color: var(--primary-accent); min-width: 50px; text-align: right; }
-        .input-numeric { width: 100px; text-align: center; padding: 10px !important; font-weight: 600; }
-        .toggle-switch { position: relative; display: inline-block; width: 50px; height: 28px; }
-        .toggle-switch input { opacity: 0; width: 0; height: 0; }
-        .toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 28px; }
-        .toggle-slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .toggle-slider { background-color: var(--primary-accent); }
-        input:checked + .toggle-slider:before { transform: translateX(22px); }
+        .input-numeric { width: 100px; text-align: center; padding: 10px !important; border: 1px solid var(--border-color); border-radius: 8px; font-weight: 600; }
         .save-btn { background-color: var(--primary-accent); color: white; border: none; padding: 12px 30px; border-radius: 8px; font-size: 1em; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
         .save-btn:hover { background-color: #248a7f; transform: translateY(-2px); }
+
+        /* Toggle Switch */
+        .toggle-switch { position: relative; display: inline-block; width: 52px; height: 28px; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 34px; }
+        .toggle-slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .toggle-slider { background-color: var(--primary-accent); }
+        input:checked + .toggle-slider:before { transform: translateX(24px); }
     </style>
 </head>
 <body>
@@ -88,115 +87,67 @@
 
     <div class="main-content">
         <header class="main-header">
-            <h1>Pengaturan Sistem & Preferensi</h1>
-            <p>Sesuaikan cara kerja sistem sesuai dengan kebutuhan lahan Anda.</p>
+            <h1>Pengaturan Sistem</h1>
+            <p>Sesuaikan cara kerja otomatisasi dan kontrol alat.</p>
         </header>
 
-        <div class="settings-tabs">
-            <button class="tab-btn active" data-tab="otomatisasi">Aturan Otomatisasi</button>
-            <button class="tab-btn" data-tab="notifikasi">Notifikasi</button>
-            <button class="tab-btn" data-tab="profil">Profil Pengguna</button>
-            <button class="tab-btn" data-tab="sistem">Sistem</button>
-        </div>
-
-        <div class="settings-content">
-            <div id="tab-otomatisasi" class="tab-pane active card">
-                <form id="form-otomatisasi">
-                    <div class="card-body">
-                        <h3>Aturan Penyiraman Otomatis</h3>
-                        <div class="setting-item">
-                            <div class="description">
-                                <h4>Ambang Batas Kelembapan Tanah</h4>
-                                <p>Pompa akan otomatis menyala jika kelembapan tanah turun di bawah nilai ini.</p>
-                            </div>
-                            <div class="control">
-                                <div class="slider-container">
-                                    <input type="range" min="10" max="60" value="35" id="soil-threshold-slider">
-                                    <span class="slider-value" id="slider-value">35%</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="setting-item">
-                            <div class="description">
-                                <h4>Durasi Penyiraman Otomatis (menit)</h4>
-                                <p>Lama waktu pompa akan menyala saat penyiraman otomatis.</p>
-                            </div>
-                            <div class="control" style="max-width: 150px;">
-                                 <input class="input-numeric" type="number" value="15" id="durasi-siram-input">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <button type="submit" class="save-btn" id="save-btn-otomatisasi">Simpan Perubahan</button>
-                    </div>
-                </form>
-            </div>
-
-            <div id="tab-notifikasi" class="tab-pane card">
+        <div class="card">
+            <form id="form-otomatisasi">
                 <div class="card-body">
-                    <h3>Preferensi Notifikasi</h3>
+                    <h3>Kontrol Otomatisasi</h3>
+                    
                     <div class="setting-item">
-                        <div class="description"><h4>Notifikasi Tanah Kering</h4><p>Kirim peringatan saat kelembapan tanah mencapai level kritis.</p></div>
-                        <div class="control"><label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+                        <div class="description">
+                            <h4>Status Sistem Penyiraman Otomatis</h4>
+                            <p>Jika dimatikan, pompa tidak akan menyala otomatis meskipun tanah kering.</p>
+                        </div>
+                        <div class="control" style="text-align: right;">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="status-sistem-toggle" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
                     </div>
+
                     <div class="setting-item">
-                         <div class="description"><h4>Notifikasi Pompa Aktif</h4><p>Beri tahu saya setiap kali pompa otomatis menyala dan mati.</p></div>
-                        <div class="control"><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></div>
+                        <div class="description">
+                            <h4>Ambang Batas Kelembapan Tanah</h4>
+                            <p>Pompa menyala jika kelembapan tanah turun di bawah nilai ini.</p>
+                        </div>
+                        <div class="control">
+                            <div class="slider-container">
+                                <input type="range" min="10" max="80" value="35" id="soil-threshold-slider">
+                                <span class="slider-value" id="slider-value">35%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="description">
+                            <h4>Durasi Penyiraman Otomatis (menit)</h4>
+                            <p>Lama waktu pompa menyala dalam satu sesi penyiraman.</p>
+                        </div>
+                        <div class="control" style="max-width: 150px; float: right;">
+                             <input class="input-numeric" type="number" value="15" id="durasi-siram-input">
+                        </div>
                     </div>
                 </div>
-                 <div class="card-footer">
-                    <button class="save-btn dummy-save-btn">Simpan Perubahan</button>
+                <div class="card-footer">
+                    <button type="submit" class="save-btn" id="save-btn">Simpan Perubahan</button>
                 </div>
-            </div>
-             <div id="tab-profil" class="tab-pane card">
-                 <div class="card-body">
-                    <h3>Profil Pengguna</h3>
-                    <div class="form-group"><label for="nama">Nama Lengkap</label><input type="text" id="nama" value="Petani Cerdas"></div>
-                    <div class="form-group"><label for="email">Alamat Email</label><input type="email" id="email" value="petani@contoh.com"></div>
-                 </div>
-                 <div class="card-footer">
-                    <button class="save-btn dummy-save-btn">Simpan Profil</button>
-                 </div>
-            </div>
-             <div id="tab-sistem" class="tab-pane card">
-                 <div class="card-body">
-                    <h3>Pengaturan Sistem</h3>
-                    <div class="setting-item">
-                        <div class="description"><h4>Bahasa</h4><p>Pilih bahasa antarmuka sistem.</p></div>
-                        <div class="control" style="max-width: 250px;"><select><option>Bahasa Indonesia</option><option>English</option></select></div>
-                    </div>
-                 </div>
-                 <div class="card-footer">
-                    <button class="save-btn dummy-save-btn">Simpan Pengaturan</button>
-                 </div>
-            </div>
+            </form>
         </div>
     </div>
 
     <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // --- Logika untuk Tab ---
-        const tabButtons = document.querySelectorAll('.tab-btn');
-        const tabPanes = document.querySelectorAll('.tab-pane');
-        tabButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                tabButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                tabPanes.forEach(pane => pane.classList.remove('active'));
-                document.getElementById('tab-' + button.dataset.tab).classList.add('active');
-            });
-        });
-
-        // === BAGIAN BARU: PENGATURAN OTOMATISASI ===
-        
-        // Ambil elemen form
         const slider = document.getElementById('soil-threshold-slider');
         const sliderValue = document.getElementById('slider-value');
         const durasiInput = document.getElementById('durasi-siram-input');
-        const saveButton = document.getElementById('save-btn-otomatisasi');
-        const formOtomatisasi = document.getElementById('form-otomatisasi');
+        const statusToggle = document.getElementById('status-sistem-toggle');
+        const saveButton = document.getElementById('save-btn');
+        const form = document.getElementById('form-otomatisasi');
 
-        // Fungsi untuk update tampilan slider
         function updateSliderProgress(value) {
             const progress = (value - slider.min) / (slider.max - slider.min) * 100;
             slider.style.backgroundSize = `${progress}% 100%`;
@@ -204,39 +155,34 @@
         }
         slider.addEventListener('input', (e) => updateSliderProgress(e.target.value));
 
-        // 1. FUNGSI LOAD PENGATURAN (GET)
+        // Load Data dari Database
         async function loadPengaturan() {
             try {
                 const response = await fetch('api_pengaturan.php', { method: 'GET' });
-                if (!response.ok) throw new Error('Gagal mengambil data');
-                
                 const result = await response.json();
                 if (result.status === 'success' && result.data) {
-                    // Set nilai form dari database
-                    const ambangBatas = parseFloat(result.data.ambang_batas_tanah);
-                    slider.value = ambangBatas;
-                    updateSliderProgress(ambangBatas); // Update tampilan slider
+                    const ambang = parseFloat(result.data.ambang_batas_tanah);
+                    slider.value = ambang;
+                    updateSliderProgress(ambang);
                     durasiInput.value = parseInt(result.data.durasi_siram_menit);
-                } else {
-                    console.error('Data pengaturan tidak ditemukan:', result.message);
+                    
+                    // Set Toggle (1 = Checked, 0 = Unchecked)
+                    statusToggle.checked = (result.data.status_sistem == 1);
                 }
-            } catch (error) {
-                console.error('Error saat load pengaturan:', error);
-            }
+            } catch (error) { console.error(error); }
         }
 
-        // 2. FUNGSI SIMPAN PENGATURAN (POST)
-        formOtomatisasi.addEventListener('submit', async function(e) {
-            e.preventDefault(); // Mencegah form submit
-            
+        // Simpan Data ke Database
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
             const originalText = saveButton.textContent;
             saveButton.textContent = 'Menyimpan...';
             saveButton.disabled = true;
 
-            // Ambil data dari form
             const dataToSave = {
                 ambang_batas_tanah: parseFloat(slider.value),
-                durasi_siram_menit: parseInt(durasiInput.value)
+                durasi_siram_menit: parseInt(durasiInput.value),
+                status_sistem: statusToggle.checked ? 1 : 0
             };
 
             try {
@@ -245,21 +191,13 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(dataToSave)
                 });
-
-                if (!response.ok) throw new Error('Respon server tidak ok');
-                
                 const result = await response.json();
                 
                 if (result.status === 'success') {
-                    // Animasi sukses
-                    saveButton.textContent = 'Disimpan!';
+                    saveButton.textContent = 'Berhasil Disimpan!';
                     saveButton.style.backgroundColor = '#2ecc71';
-                } else {
-                    throw new Error(result.message || 'Gagal menyimpan');
-                }
-
+                } else { throw new Error(); }
             } catch (error) {
-                console.error('Error saat menyimpan:', error);
                 saveButton.textContent = 'Gagal!';
                 saveButton.style.backgroundColor = '#e74c3c'; 
             } finally {
@@ -267,30 +205,11 @@
                     saveButton.textContent = originalText;
                     saveButton.disabled = false;
                     saveButton.style.backgroundColor = 'var(--primary-accent)';
-                }, 2500);
+                }, 2000);
             }
         });
 
         loadPengaturan();
-
-        const dummySaveButtons = document.querySelectorAll('.dummy-save-btn');
-        dummySaveButtons.forEach(button => {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                const originalText = this.textContent;
-                this.textContent = 'Menyimpan...';
-                this.disabled = true;
-                setTimeout(() => {
-                    this.textContent = 'Disimpan!';
-                    this.style.backgroundColor = '#2ecc71';
-                }, 1000);
-                setTimeout(() => {
-                    this.textContent = originalText;
-                    this.disabled = false;
-                    this.style.backgroundColor = 'var(--primary-accent)';
-                }, 2500);
-            });
-        });
     });
     </script>
 </body>
