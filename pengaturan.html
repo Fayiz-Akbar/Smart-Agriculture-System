@@ -5,21 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AgroTech - Pengaturan</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
     <style>
-        :root {
-            --bg-main: #f4f7fa; --sidebar-bg: #ffffff; --card-bg: #ffffff;
-            --primary-accent: #2a9d8f; --primary-light: #eaf6f5;
-            --text-dark: #2c3e50; --text-muted: #8a99a8; --border-color: #e8edf2;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        }
+        /* (CSS SAMA SEPERTI SEBELUMNYA - TIDAK PERLU DIUBAH) */
+        :root { --bg-main: #f4f7fa; --sidebar-bg: #ffffff; --card-bg: #ffffff; --primary-accent: #2a9d8f; --primary-light: #eaf6f5; --text-dark: #2c3e50; --text-muted: #8a99a8; --border-color: #e8edf2; --shadow: 0 4px 12px rgba(0, 0, 0, 0.08); }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background-color: var(--bg-main); color: var(--text-dark); display: flex; min-height: 100vh; }
-        
-        /* Sidebar */
         .sidebar { width: 280px; background: var(--sidebar-bg); padding: 30px 20px; height: 100vh; position: fixed; display: flex; flex-direction: column; border-right: 1px solid var(--border-color); }
         .sidebar-header { display: flex; align-items: center; gap: 15px; margin-bottom: 50px; }
         .sidebar-header i { font-size: 2.2em; color: var(--primary-accent); }
@@ -30,43 +22,30 @@
         .sidebar-nav li a:hover { background: var(--primary-light); color: var(--primary-accent); }
         .sidebar-nav li a.active { background: var(--primary-accent); color: #ffffff; }
         .sidebar-nav li a i { font-size: 1.2em; width: 24px; }
-
-        /* Main Content */
         .main-content { flex-grow: 1; margin-left: 280px; padding: 40px 50px; }
         .main-header { margin-bottom: 40px; }
         .main-header h1 { font-size: 2.5em; font-weight: 700; margin-bottom: 8px; color: var(--text-dark); }
         .main-header p { color: var(--text-muted); font-size: 1.05em; }
-
-        /* Card */
         .card { background: var(--card-bg); border-radius: 16px; padding: 0; border: 1px solid var(--border-color); box-shadow: var(--shadow); }
         .card-body { padding: 30px; }
         .card-footer { padding: 20px 30px; background-color: #f8f9fb; border-top: 1px solid var(--border-color); border-radius: 0 0 16px 16px; text-align: right; }
-
-        /* Settings Item */
         .setting-item { display: flex; justify-content: space-between; align-items: center; padding: 25px 0; border-bottom: 1px solid var(--border-color); }
-        .setting-item:first-of-type { padding-top: 0; }
         .setting-item:last-of-type { border-bottom: none; }
         .setting-item .description { flex-grow: 1; padding-right: 20px; }
         .setting-item .description h4 { margin: 0 0 5px; font-weight: 600; }
         .setting-item .description p { margin: 0; color: var(--text-muted); font-size: 0.9em; }
-        .setting-item .control { flex-shrink: 0; width: 50%; }
-
-        /* Controls */
         .slider-container { display: flex; align-items: center; gap: 20px; }
         input[type="range"] { -webkit-appearance: none; appearance: none; flex-grow: 1; height: 8px; background: var(--border-color); border-radius: 5px; outline: none; background-image: linear-gradient(var(--primary-accent), var(--primary-accent)); background-size: 35% 100%; background-repeat: no-repeat; }
         input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 22px; height: 22px; background: var(--primary-accent); cursor: pointer; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
         .slider-value { font-weight: 600; font-size: 1.2em; color: var(--primary-accent); min-width: 50px; text-align: right; }
-        .input-numeric { width: 100px; text-align: center; padding: 10px !important; border: 1px solid var(--border-color); border-radius: 8px; font-weight: 600; }
-        .save-btn { background-color: var(--primary-accent); color: white; border: none; padding: 12px 30px; border-radius: 8px; font-size: 1em; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
-        .save-btn:hover { background-color: #248a7f; transform: translateY(-2px); }
-
-        /* Toggle Switch */
         .toggle-switch { position: relative; display: inline-block; width: 52px; height: 28px; }
         .toggle-switch input { opacity: 0; width: 0; height: 0; }
         .toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 34px; }
         .toggle-slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
         input:checked + .toggle-slider { background-color: var(--primary-accent); }
         input:checked + .toggle-slider:before { transform: translateX(24px); }
+        .save-btn { background-color: var(--primary-accent); color: white; border: none; padding: 12px 30px; border-radius: 8px; font-size: 1em; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
+        .save-btn:hover { background-color: #248a7f; transform: translateY(-2px); }
     </style>
 </head>
 <body>
@@ -112,7 +91,7 @@
                     <div class="setting-item">
                         <div class="description">
                             <h4>Ambang Batas Kelembapan Tanah</h4>
-                            <p>Pompa menyala jika kelembapan tanah turun di bawah nilai ini.</p>
+                            <p>Pompa akan <strong>MENYALA</strong> saat tanah di bawah nilai ini, dan <strong>MATI</strong> saat sudah basah (di atas nilai ini).</p>
                         </div>
                         <div class="control">
                             <div class="slider-container">
@@ -121,17 +100,8 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="setting-item">
-                        <div class="description">
-                            <h4>Durasi Penyiraman Otomatis (menit)</h4>
-                            <p>Lama waktu pompa menyala dalam satu sesi penyiraman.</p>
-                        </div>
-                        <div class="control" style="max-width: 150px; float: right;">
-                             <input class="input-numeric" type="number" value="15" id="durasi-siram-input">
-                        </div>
+                    
                     </div>
-                </div>
                 <div class="card-footer">
                     <button type="submit" class="save-btn" id="save-btn">Simpan Perubahan</button>
                 </div>
@@ -143,7 +113,6 @@
     document.addEventListener('DOMContentLoaded', function () {
         const slider = document.getElementById('soil-threshold-slider');
         const sliderValue = document.getElementById('slider-value');
-        const durasiInput = document.getElementById('durasi-siram-input');
         const statusToggle = document.getElementById('status-sistem-toggle');
         const saveButton = document.getElementById('save-btn');
         const form = document.getElementById('form-otomatisasi');
@@ -155,7 +124,7 @@
         }
         slider.addEventListener('input', (e) => updateSliderProgress(e.target.value));
 
-        // Load Data dari Database
+        // Load Data
         async function loadPengaturan() {
             try {
                 const response = await fetch('api_pengaturan.php', { method: 'GET' });
@@ -164,15 +133,12 @@
                     const ambang = parseFloat(result.data.ambang_batas_tanah);
                     slider.value = ambang;
                     updateSliderProgress(ambang);
-                    durasiInput.value = parseInt(result.data.durasi_siram_menit);
-                    
-                    // Set Toggle (1 = Checked, 0 = Unchecked)
                     statusToggle.checked = (result.data.status_sistem == 1);
                 }
             } catch (error) { console.error(error); }
         }
 
-        // Simpan Data ke Database
+        // Simpan Data (Tanpa Durasi)
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
             const originalText = saveButton.textContent;
@@ -181,7 +147,6 @@
 
             const dataToSave = {
                 ambang_batas_tanah: parseFloat(slider.value),
-                durasi_siram_menit: parseInt(durasiInput.value),
                 status_sistem: statusToggle.checked ? 1 : 0
             };
 
